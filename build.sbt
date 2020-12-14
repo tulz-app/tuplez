@@ -1,20 +1,16 @@
-inThisBuild(
-  List(
-    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
-    publishTo := sonatypePublishToBundle.value,
-    organization := "app.tulz",
-    homepage := Some(url("https://github.com/tulz-app/tuplez")),
-    licenses += ("MIT", url("https://github.com/tulz-app/tuplez/blob/main/LICENSE.md")),
-    developers := List(
-      Developer(
-        id = "yurique",
-        name = "Iurii Malchenko",
-        email = "i@yurique.com",
-        url = url("https://github.com/yurique")
-      )
-    )
+ThisBuild / organization := "app.tulz"
+ThisBuild / homepage := Some(url("https://github.com/tulz-app/tuplez"))
+ThisBuild / licenses += ("MIT", url("https://github.com/tulz-app/tuplez/blob/main/LICENSE.md"))
+ThisBuild / developers := List(
+  Developer(
+    id = "yurique",
+    name = "Iurii Malchenko",
+    email = "i@yurique.com",
+    url = url("https://github.com/yurique")
   )
 )
+ThisBuild / releasePublishArtifactsAction := PgpKeys.publishSigned.value
+ThisBuild / publishTo := sonatypePublishToBundle.value
 
 lazy val tuplez =
   crossProject(JVMPlatform, JSPlatform)
