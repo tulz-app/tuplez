@@ -51,7 +51,7 @@ lazy val tuplez =
           new TupleTestGenerator((Test / sourceManaged).value).generate()
         )
       }.taskValue,
-      publishArtifact in (Compile, packageDoc) := false,
+      mappings in (Compile, packageSrc) := Seq.empty,
       mappings in (Compile, packageSrc) ++= {
         val base  = (sourceManaged in Compile).value
         val files = (managedSources in Compile).value
