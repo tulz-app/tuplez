@@ -28,26 +28,7 @@ abstract class Composition[-A, -B] {
 
 Implicit values are provided for composing tuples with tuples, and tuples with scalars (both prepending and appending). 
 
-Implicits are defined by the generated code. Examples:
-
-```scala
-trait Composition_PriLow {
-
-  implicit def `T1+scalar`[L, R: NonTuple]: Composition[Tuple1[L], R] = Composition((l, r) => (l._1, r))
-
-  implicit def `scalar+T2`[L: NonTuple, T1, T2]: Composition[L, (T1, T2)] =
-    Composition((l, r) =>
-      (l, r._1, r._2)
-    )
-
-  implicit def `T2+T3`[L1, L2, R1, R2, R3]: Composition[(L1, L2), (R1, R2, R3)] =
-    Composition((l, r) =>
-      (l._1, l._2, r._1, r._2, r._3)
-    )
-    
-}
-  
-```
+Implicits are defined by the generated code.
 
 ### TupleComposition
 
