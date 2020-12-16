@@ -75,3 +75,14 @@ case class MyStructure[T](
 
 }
 ```
+
+
+
+## Author
+
+Iurii Malchenko – [@yurique](https://twitter.com/yurique)
+
+
+## License
+
+`tuplez` is provided under the [MIT license](https://github.com/tulz-app/tuplez/blob/main/LICENSE.md).
