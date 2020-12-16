@@ -71,7 +71,7 @@ case class MyStructure[T](
 
   def appendScalar[U: NonTuple](value: U)(implicit composition: Composition[T, U]): MyStructure[composition.Composed] = 
     copy(data = composition.compose(data, value)) // or 
-  // copy(data = TupleComposition.compose(data, value))
+ // copy(data = TupleComposition.compose(data, value))
 
 }
 ```
