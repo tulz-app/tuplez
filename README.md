@@ -5,7 +5,7 @@
 A tiny library for tuple composition.
 
 ```scala
-"app.tulz" %%% "tuplez" % "0.1.0" 
+libraryDependencies += "app.tulz" %%% "tuplez" % "0.1.0" 
 ```
 
 ### Tuple marker traits
