@@ -10,9 +10,9 @@ A tiny library for tuple composition.
 
 ### Tuple marker traits
 
-* `app.tulz.tuplez.Tuple[T]` -- instances exist for `Tuple1` .. `Tuple22` (a utility, not actually used by this library)
+* `app.tulz.tuplez.Tuple[T]` - instances exist for `Tuple1` .. `Tuple22` (a utility, not actually used by this library)
 
-* `app.tulz.tuplez.NonTuple[T]` -- conflicting instances exist for `Tuple1` .. `Tuple22` (used to disambiguate tuples from scalars in composition implicits)
+* `app.tulz.tuplez.NonTuple[T]` - conflicting instances are defined for `Tuple1` .. `Tuple22` (used to disambiguate tuples from scalars in composition implicits)
 
 
 ### Composition
