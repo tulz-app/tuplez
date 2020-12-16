@@ -33,7 +33,6 @@ Implicits are defined by the generated code.
 ### TupleComposition
 
 `app.tulz.tuplez.TupleComposition`
-`app.tulz.tuplez.Composition`
 
 Provides a single utility function to compose two tuples (or a tuple and a scalar)
 
