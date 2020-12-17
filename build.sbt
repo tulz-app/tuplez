@@ -43,16 +43,18 @@ lazy val tuplez =
         Seq.concat(
           new TupleGenerator((Compile / sourceManaged).value).generate(),
           new NonTupleGenerator((Compile / sourceManaged).value).generate(),
-          new TupleCompositionGenerator((Compile / sourceManaged).value).generate()
+          new TupleCompositionGenerator((Compile / sourceManaged).value).generate(),
+          new ApplyConverterGenerator((Compile / sourceManaged).value).generate(),
+          new ApplyConverterInstancesGenerator((Compile / sourceManaged).value).generate()
         )
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleTestGenerator((Test / sourceManaged).value).generate()
+          new TupleTestGenerator((Test / sourceManaged).value).generate(),
+          new ApplyConverterTestGenerator((Test / sourceManaged).value).generate()
         )
       }.taskValue,
-      mappings in (Compile, packageSrc) := Seq.empty,
-      mappings in (Compile, packageSrc) ++= {
+      mappings in (Compile, packageSrc) := {
         val base  = (sourceManaged in Compile).value
         val files = (managedSources in Compile).value
         files.map { f =>

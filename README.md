@@ -58,6 +58,27 @@ TupleComposition.compose( (1, 2, 3), () ) // (1, 2, 3)
 TupleComposition.compose( (),  (1, 2, 3) ) // (1, 2, 3)
 ```
 
+### Apply converters
+
+`app.tulz.tuplez.TupleComposition`
+
+Utilities for converting `FunctionN[..., Out]` into `Function1[TupleN[...], Out]`
+
+Example:
+
+```scala
+import app.tulz.tuplez._
+
+val instances = new ApplyConverters[String] {} // for now, in order to make type and implicits resolution possible, the apply converters are generated for a fixed output type
+import instances._
+
+val acceptingTupledFunc: ((Int, Int, Int, Int) => String) => String = func => func((1, 2, 3, 4))
+val nonTupledFunction = (x1: Int, x2: Int, x3: Int, x4: Int) => s"I return [${x1}, ${x2}, ${x3}, ${x4}]"
+assert(acceptingTupledFunc(toTupled4(nonTupledFunction)) == "I return [1, 2, 3, 4]")
+```
+
+(a more real example: https://github.com/tulz-app/frontroute/blob/main/src/main/scala/io/frontroute/DirectiveApplyConverters.scala)
+
 ### Intended usage
 
 Simple example:
