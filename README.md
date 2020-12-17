@@ -5,7 +5,7 @@
 A tiny library for tuple composition.
 
 ```scala
-libraryDependencies += "app.tulz" %%% "tuplez" % "0.1.0" 
+"app.tulz" %%% "tuplez" % "0.2.0" 
 ```
 
 ### Tuple marker traits
@@ -77,8 +77,6 @@ val nonTupledFunction = (x1: Int, x2: Int, x3: Int, x4: Int) => s"I return [${x1
 assert(acceptingTupledFunc(toTupled4(nonTupledFunction)) == "I return [1, 2, 3, 4]")
 ```
 
-(a more real example: https://github.com/tulz-app/frontroute/blob/main/src/main/scala/io/frontroute/DirectiveApplyConverters.scala)
-
 ### Intended usage
 
 Simple example:
@@ -97,6 +95,7 @@ case class MyStructure[T](
 }
 ```
 
+A more complete example: https://github.com/tulz-app/frontroute/blob/main/src/main/scala/io/frontroute/DirectiveApplyConverters.scala
 
 
 ## Author
