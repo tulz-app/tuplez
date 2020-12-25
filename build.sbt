@@ -58,8 +58,7 @@ lazy val tuplez =
         val base  = (sourceManaged in Compile).value
         val files = (managedSources in Compile).value
         files.map { f =>
-          println(s"getting mappings: ${(f, f.relativeTo(base).get.getPath)}")
-          (f, f.relativeTo(base).get.getPath)
+          (f, f.relativeTo(base / "scala").get.getPath)
         }
       },
       description := "A tiny library for tuple composition",
