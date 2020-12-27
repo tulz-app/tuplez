@@ -5,14 +5,39 @@
 A tiny library for tuple composition.
 
 ```scala
-"app.tulz" %%% "tuplez" % "0.2.0" 
+// tupleN + scalar, scalar+tupleN, tupleN+tupleM, for all sizes (2 to 22)
+"app.tulz" %%% "tuplez-full" % "0.3.0"
+
+// or
+
+// tupleN + scalar, scalar+tupleN, tupleN+tupleM, for all sizes (2 to 10)
+"app.tulz" %%% "tuplez-full-light" % "0.3.0"
+
+// or
+
+// tupleN + scalar, for all sizes (2 to 22)
+"app.tulz" %%% "tuplez-basic" % "0.3.0"
+
+// or
+
+// tupleN + scalar, for all sizes (2 to 10) 
+"app.tulz" %%% "tuplez-basic-light" % "0.3.0" 
+```
+
+```scala
+// apply converters (use a FunctionN where Function1[TupleN] is expected)
+"app.tulz" %%% "tuplez-apply" % "0.3.0" 
+```
+
+```scala
+// Tuple marker trait and evidences for Tuple1 .. Tuple22 
+"app.tulz" %%% "tuplez-tuple" % "0.3.0" 
+
 ```
 
 ### Tuple marker traits
 
 * `app.tulz.tuplez.Tuple[T]` - instances exist for `Tuple1` .. `Tuple22` (a utility, not actually used by this library)
-
-* `app.tulz.tuplez.NonTuple[T]` - conflicting instances are defined for `Tuple1` .. `Tuple22` (used to disambiguate tuples from scalars in composition implicits)
 
 
 ### Composition
@@ -88,7 +113,7 @@ case class MyStructure[T](
   data: T
 ) {
 
-  def appendScalar[U: NonTuple](value: U)(implicit composition: Composition[T, U]): MyStructure[composition.Composed] = 
+  def appendScalar[U](value: U)(implicit composition: Composition[T, U]): MyStructure[composition.Composed] = 
     copy(data = composition.compose(data, value)) // or 
  // copy(data = TupleComposition.compose(data, value))
 
