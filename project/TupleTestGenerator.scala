@@ -2,7 +2,7 @@ import sbt._
 
 import java.io.File
 
-class TupleTestGenerator(sourceManaged: File)
+class TupleTestGenerator(sourceManaged: File, to: Int, testConcats: Boolean, testPrepends: Boolean)
     extends TuplezSourceGenerator(
       sourceManaged / "scala" / "app" / "tulz" / "tuplez" / "TuplezTests.scala"
     ) {
@@ -26,6 +26,21 @@ class TupleTestGenerator(sourceManaged: File)
     leave("}")
     println()
 
+    enter("""test("scalar plus scalar") {""")
+    println("""TupleComposition.compose(1, 2) ==> (1, 2)""")
+    leave("}")
+    println()
+
+    enter("""test("scalar plus unit") {""")
+    println("""TupleComposition.compose(1, unit) ==> 1""")
+    leave("}")
+    println()
+
+    enter("""test("unit plus scalar") {""")
+    println("""TupleComposition.compose(unit, 2) ==> 2""")
+    leave("}")
+    println()
+
     def tupleValue(size: Int, offset: Int): String = {
       if (size == 1) {
         s"Tuple1(${offset + 1})"
@@ -34,7 +49,7 @@ class TupleTestGenerator(sourceManaged: File)
       }
     }
 
-    for (size1 <- 1 to 21) {
+    for (size1 <- 1 to to - 1) {
       enter(s"""test("${size1}-tuple plus Unit") {""")
       println(s"""val tuple = ${tupleValue(size1, 100)}""")
       println(s"""TupleComposition.compose(tuple, (): Unit) ==> tuple""")
@@ -43,7 +58,7 @@ class TupleTestGenerator(sourceManaged: File)
       println()
     }
 
-    for (size1 <- 1 to 21) {
+    for (size1 <- 1 to to - 1) {
       enter(s"""test("${size1}-tuple plus scalar") {""")
       println(s"""val tuple = ${tupleValue(size1, 100)}""")
       println(s"""val expected = (${(101 until 101 + size1).mkString(", ")}, 201)""")
@@ -52,24 +67,28 @@ class TupleTestGenerator(sourceManaged: File)
       println()
     }
 
-    for (size1 <- 1 to 21) {
-      enter(s"""test("scalar plus ${size1}-tuple") {""")
-      println(s"""val tuple = ${tupleValue(size1, 100)}""")
-      println(s"""val expected = (201, ${(101 until 101 + size1).mkString(", ")})""")
-      println(s"""TupleComposition.compose(201, tuple) ==> expected""")
-      leave(s"""}""")
-      println()
-    }
-
-    for (size1 <- 1 to 21) {
-      for (size2 <- 1 to 22 - size1) {
-        enter(s"""test("${size1}-tuple plus ${size2}-tuple") {""".stripMargin)
-        println(s"""val tuple1 = ${tupleValue(size1, 100)}""")
-        println(s"""val tuple2 = ${tupleValue(size2, 200)}""")
-        println(s"""val expected = (${((101 until 101 + size1) ++ (201 until 201 + size2)).mkString(", ")})""")
-        println(s"""TupleComposition.compose(tuple1, tuple2) ==> expected""")
+    if (testPrepends) {
+      for (size1 <- 1 to to - 1) {
+        enter(s"""test("scalar plus ${size1}-tuple") {""")
+        println(s"""val tuple = ${tupleValue(size1, 100)}""")
+        println(s"""val expected = (201, ${(101 until 101 + size1).mkString(", ")})""")
+        println(s"""TupleComposition.compose(201, tuple) ==> expected""")
         leave(s"""}""")
         println()
+      }
+    }
+
+    if (testConcats) {
+      for (size1 <- 1 to to - 1) {
+        for (size2 <- 1 to to - size1) {
+          enter(s"""test("${size1}-tuple plus ${size2}-tuple") {""".stripMargin)
+          println(s"""val tuple1 = ${tupleValue(size1, 100)}""")
+          println(s"""val tuple2 = ${tupleValue(size2, 200)}""")
+          println(s"""val expected = (${((101 until 101 + size1) ++ (201 until 201 + size2)).mkString(", ")})""")
+          println(s"""TupleComposition.compose(tuple1, tuple2) ==> expected""")
+          leave(s"""}""")
+          println()
+        }
       }
     }
 
