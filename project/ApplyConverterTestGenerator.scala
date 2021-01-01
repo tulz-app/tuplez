@@ -3,7 +3,7 @@ import sbt._
 import java.io.File
 
 class ApplyConverterTestGenerator(sourceManaged: File)
-    extends TuplezSourceGenerator(
+    extends SourceGenerator(
       sourceManaged / "scala" / "app" / "tulz" / "tuplez" / "ApplyConverterTests.scala"
     ) {
 

@@ -2,7 +2,7 @@ import sbt._
 import java.io.File
 
 class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: Boolean, generatePrepends: Boolean)
-    extends TuplezSourceGenerator(
+    extends SourceGenerator(
       sourceManaged / "scala" / "app" / "tulz" / "tuplez" / "TupleComposition.scala"
     ) {
 

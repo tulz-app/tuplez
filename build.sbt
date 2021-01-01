@@ -62,7 +62,7 @@ lazy val `tuplez-full` =
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleTestGenerator((Test / sourceManaged).value, to = 22, testConcats = true, testPrepends = true).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = true, testPrepends = true).generate()
         )
       }.taskValue,
       mappings in (Compile, packageSrc) := {
@@ -88,7 +88,7 @@ lazy val `tuplez-full-light` =
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleTestGenerator((Test / sourceManaged).value, to = 10, testConcats = true, testPrepends = true).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = true, testPrepends = true).generate()
         )
       }.taskValue,
       mappings in (Compile, packageSrc) := {
@@ -114,7 +114,7 @@ lazy val `tuplez-basic` =
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleTestGenerator((Test / sourceManaged).value, to = 22, testConcats = false, testPrepends = false).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = false, testPrepends = false).generate()
         )
       }.taskValue,
       mappings in (Compile, packageSrc) := {
@@ -140,7 +140,7 @@ lazy val `tuplez-basic-light` =
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleTestGenerator((Test / sourceManaged).value, to = 10, testConcats = false, testPrepends = false).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = false, testPrepends = false).generate()
         )
       }.taskValue,
       mappings in (Compile, packageSrc) := {
@@ -180,27 +180,6 @@ lazy val `tuplez-apply` =
       description := "A tiny library for tuple composition"
     )
 
-lazy val `tuplez-tuple` =
-  crossProject(JVMPlatform, JSPlatform)
-    .crossType(CrossType.Pure)
-    .in(file("modules/tuple"))
-    .settings(commonSettings)
-    .settings(
-      Compile / sourceGenerators += Def.task {
-        Seq.concat(
-          new TupleGenerator((Compile / sourceManaged).value).generate()
-        )
-      }.taskValue,
-      mappings in (Compile, packageSrc) := {
-        val base  = (sourceManaged in Compile).value
-        val files = (managedSources in Compile).value
-        files.map { f =>
-          (f, f.relativeTo(base / "scala").get.getPath)
-        }
-      },
-      description := "Tuple evidence trait and instances for Tuple1 .. Tuple22"
-    )
-
 lazy val `tuplez-js` = project
   .in(file(".tuplez-js"))
   .settings(
@@ -213,7 +192,6 @@ lazy val `tuplez-js` = project
     `tuplez-basic`.js,
     `tuplez-basic-light`.js,
     `tuplez-apply`.js,
-    `tuplez-tuple`.js
   )
 
 lazy val `tuplez-jvm` = project
@@ -228,7 +206,6 @@ lazy val `tuplez-jvm` = project
     `tuplez-basic`.jvm,
     `tuplez-basic-light`.jvm,
     `tuplez-apply`.jvm,
-    `tuplez-tuple`.jvm
   )
 
 lazy val root = project

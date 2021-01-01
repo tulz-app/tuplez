@@ -2,9 +2,9 @@ import sbt._
 
 import java.io.File
 
-class TupleTestGenerator(sourceManaged: File, to: Int, testConcats: Boolean, testPrepends: Boolean)
-    extends TuplezSourceGenerator(
-      sourceManaged / "scala" / "app" / "tulz" / "tuplez" / "TuplezTests.scala"
+class TupleCompositionTestGenerator(sourceManaged: File, to: Int, testConcats: Boolean, testPrepends: Boolean)
+    extends SourceGenerator(
+      sourceManaged / "scala" / "app" / "tulz" / "tuplez" / "TupleCompositionTests.scala"
     ) {
 
   def doGenerate(): Unit = {
@@ -12,7 +12,7 @@ class TupleTestGenerator(sourceManaged: File, to: Int, testConcats: Boolean, tes
     println()
     println("""import utest._""")
     println()
-    enter("""object TuplezTests extends TestSuite {""")
+    enter("""object TupleCompositionTests extends TestSuite {""")
     println()
 
     println("""private val unit: Unit = (): Unit""")
