@@ -21,13 +21,13 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
     leave("}")
     println()
     enter("""trait Composition_Pri0 {""")
-    println("""implicit def ***[A, B] = Composition[A, B, (A, B)]((_, _))""")
+    println("""implicit def ***[A, B]: Composition.Aux[A, B, (A, B)] = Composition[A, B, (A, B)]((_, _))""")
     leave("}")
     println()
 
     enter("""trait Composition_Pri5 extends Composition_Pri0{""")
-    println("""implicit def `T1+R`[L, R] = Composition[Tuple1[L], R, (L, R)]((l, r) => (l._1, r))""")
-    println("""implicit def `L+T1`[L, R] = Composition[L, Tuple1[R], (L, R)]((l, r) => (l, r._1))""")
+    println("""implicit def `T1+R`[L, R]: Composition.Aux[Tuple1[L], R, (L, R)] = Composition[Tuple1[L], R, (L, R)]((l, r) => (l._1, r))""")
+    println("""implicit def `L+T1`[L, R]: Composition.Aux[L, Tuple1[R], (L, R)] = Composition[L, Tuple1[R], (L, R)]((l, r) => (l, r._1))""")
     leave("}")
 
     println()
@@ -41,7 +41,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
     println()
 
     enter("""object Composition extends Composition_Pri10 {""")
-    println("""implicit def `unit+unit` = Composition[Unit, Unit, Unit]((_, _) => ())""")
+    println("""implicit def `unit+unit`: Composition.Aux[Unit, Unit, Unit] = Composition[Unit, Unit, Unit]((_, _) => ())""")
     println("""type Aux[A, B, O] = Composition[A, B] { type Composed = O }""")
     println()
     enter("""def apply[A, B, O](c: (A, B) => O): Aux[A, B, O] =""")
@@ -60,7 +60,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
 
     def forSizeAndScalar(size: Int): Unit = {
       val left = tupleType(size - 1)
-      enter(s"""implicit def `T${size - 1}+scalar`[${left}, R] =""")
+      enter(s"""implicit def `T${size - 1}+scalar`[${left}, R]: Composition.Aux[(${left}), R, (${left}, R)] =""")
       enter(
         s"""Composition[(${left}), R, (${left}, R)]((l, r) =>"""
       )
@@ -71,7 +71,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
 
     def forScalarAndSize(size: Int): Unit = {
       val right = tupleType(size - 1)
-      enter(s"""implicit def `scalar+T${size - 1}`[L, ${right}] =""")
+      enter(s"""implicit def `scalar+T${size - 1}`[L, ${right}]: Composition.Aux[L, (${right}), (L, ${right})] =""")
       enter(
         s"""Composition[L, (${right}), (L, ${right})]((l, r) =>"""
       )
@@ -95,13 +95,13 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
 
     println()
 
-    println("""implicit def `T1+T1`[L, R] = Composition[Tuple1[L], Tuple1[R], (L, R)]((l, r) => (l._1, r._1))""")
+    println("""implicit def `T1+T1`[L, R]: Composition.Aux[Tuple1[L], Tuple1[R], (L, R)] = Composition[Tuple1[L], Tuple1[R], (L, R)]((l, r) => (l._1, r._1))""")
 
     println()
 
     def forSizeAnd1(size: Int): Unit = {
       val left = tupleType(size)
-      enter(s"""implicit def `T${size}+T1`[${left}, R] =""")
+      enter(s"""implicit def `T${size}+T1`[${left}, R]: Composition.Aux[(${left}), Tuple1[R], (${left}, R)] =""")
       enter(
         s"""Composition[(${left}), Tuple1[R], (${left}, R)]((l, r) =>"""
       )
@@ -112,7 +112,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
 
     def for1AndSize(size: Int): Unit = {
       val right = tupleType(size)
-      enter(s"""implicit def `T1+T${size}`[L, ${right}] =""")
+      enter(s"""implicit def `T1+T${size}`[L, ${right}]: Composition.Aux[Tuple1[L], (${right}), (L, ${right})] =""")
       enter(
         s"""Composition[Tuple1[L], (${right}), (L, ${right})]((l, r) =>"""
       )
@@ -129,7 +129,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
     def forSizes(size1: Int, size2: Int): Unit = {
       val left  = tupleType(size1, "L")
       val right = tupleType(size2, "R")
-      enter(s"""implicit def `T${size1}+T${size2}`[${left}, ${right}] =""")
+      enter(s"""implicit def `T${size1}+T${size2}`[${left}, ${right}]: Composition.Aux[(${left}), (${right}), (${left}, ${right})] =""")
       enter(
         s"""Composition[(${left}), (${right}), (${left}, ${right})]((l, r) =>"""
       )
@@ -146,8 +146,8 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
       }
     }
 
-    println("""implicit def `unit+A`[A] = Composition[Unit, A, A]((_, a) => a)""")
-    println("""implicit def `A+unit`[A] = Composition[A, Unit, A]((a, _) => a)""")
+    println("""implicit def `unit+A`[A]: Composition.Aux[Unit, A, A] = Composition[Unit, A, A]((_, a) => a)""")
+    println("""implicit def `A+unit`[A]: Composition.Aux[A, Unit, A] = Composition[A, Unit, A]((a, _) => a)""")
     println()
 
     leave("""}""")
