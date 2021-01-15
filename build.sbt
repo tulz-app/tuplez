@@ -9,10 +9,13 @@ ThisBuild / developers := List(
     url = url("https://github.com/yurique")
   )
 )
+ThisBuild / releasePublishArtifactsAction := PgpKeys.publishSigned.value
+ThisBuild / publishTo := sonatypePublishToBundle.value
 ThisBuild / pomIncludeRepository := { _ => false }
 ThisBuild / sonatypeProfileName := "yurique"
 ThisBuild / publishArtifact in Test := false
 ThisBuild / publishMavenStyle := true
+ThisBuild / releaseCrossBuild := true
 ThisBuild / scmInfo := Some(
   ScmInfo(
     url("https://github.com/tulz-app/tuplez"),
@@ -28,7 +31,7 @@ lazy val noPublish = Seq(
 
 val scala213Version = "2.13.4"
 val scala212Version = "2.12.12"
-val scala3Version   = "3.0.0-M3"
+val scala3Version   = "3.0.0-RC1-bin-20210113-8345078-NIGHTLY"
 
 lazy val commonSettings = Seq(
   scalaVersion := scala3Version,
