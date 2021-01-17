@@ -9,13 +9,11 @@ ThisBuild / developers := List(
     url = url("https://github.com/yurique")
   )
 )
-ThisBuild / releasePublishArtifactsAction := PgpKeys.publishSigned.value
 ThisBuild / publishTo := sonatypePublishToBundle.value
 ThisBuild / pomIncludeRepository := { _ => false }
 ThisBuild / sonatypeProfileName := "yurique"
 ThisBuild / publishArtifact in Test := false
 ThisBuild / publishMavenStyle := true
-ThisBuild / releaseCrossBuild := true
 ThisBuild / scmInfo := Some(
   ScmInfo(
     url("https://github.com/tulz-app/tuplez"),
@@ -25,20 +23,21 @@ ThisBuild / scmInfo := Some(
 
 ThisBuild / githubWorkflowPublishTargetBranches := Seq()
 
+val scala213Version  = "2.13.4"
+val scala212Version  = "2.12.12"
+val scala3M3Version  = "3.0.0-M3"
+val scala3RC1Version = "3.0.0-RC1-bin-20210113-8345078-NIGHTLY"
+
+ThisBuild / scalaVersion := scala3RC1Version
+ThisBuild / crossScalaVersions := Seq(scala3M3Version, scala3RC1Version, scala212Version, scala213Version)
+
 lazy val noPublish = Seq(
   publishLocal / skip := true,
   publish / skip := true,
   publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo")))
 )
 
-val scala213Version  = "2.13.4"
-val scala212Version  = "2.12.12"
-val scala3M3Version  = "3.0.0-M3"
-val scala3RC1Version = "3.0.0-RC1-bin-20210113-8345078-NIGHTLY"
-
 lazy val commonSettings = Seq(
-  scalaVersion := scala3RC1Version,
-  crossScalaVersions := Seq(scala3M3Version, scala3RC1Version, scala212Version, scala213Version),
   scalacOptions ++= Seq(
     "-unchecked",
     "-deprecation",
@@ -350,10 +349,10 @@ lazy val `tuplez-apply-jvm` =
       description := "A tiny library for tuple composition"
     )
 
-lazy val `tuplez-js` = project
-  .in(file(".tuplez-js"))
+lazy val root = project
+  .in(file("."))
   .settings(
-    name := "tuplez-js"
+    name := "tuplez"
   )
   .settings(noPublish)
   .aggregate(
@@ -362,29 +361,9 @@ lazy val `tuplez-js` = project
     `tuplez-basic-js`,
     `tuplez-basic-light-js`,
     `tuplez-apply-js`,
-  )
-
-lazy val `tuplez-jvm` = project
-  .in(file(".tuplez-jvm"))
-  .settings(
-    name := "tuplez-jvm"
-  )
-  .settings(noPublish)
-  .aggregate(
     `tuplez-full-jvm`,
     `tuplez-full-light-jvm`,
     `tuplez-basic-jvm`,
     `tuplez-basic-light-jvm`,
     `tuplez-apply-jvm`,
-  )
-
-lazy val root = project
-  .in(file("."))
-  .settings(
-    name := "tuplez"
-  )
-  .settings(noPublish)
-  .aggregate(
-    `tuplez-jvm`,
-    `tuplez-js`
   )
