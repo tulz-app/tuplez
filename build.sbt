@@ -23,6 +23,8 @@ ThisBuild / scmInfo := Some(
   )
 )
 
+ThisBuild / githubWorkflowPublishTargetBranches := Seq()
+
 lazy val noPublish = Seq(
   publishLocal / skip := true,
   publish / skip := true,
