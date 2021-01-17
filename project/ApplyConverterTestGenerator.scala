@@ -10,13 +10,13 @@ class ApplyConverterTestGenerator(sourceManaged: File)
   def doGenerate(): Unit = {
     println("""package app.tulz.tuplez""")
     println()
-    println("""import utest._""")
+    println("""import org.junit.Test""")
+    println("""import org.junit.Assert._""")
     println()
-    enter("""object ApplyConverterTests extends TestSuite with ApplyConverterInstances[String] {""")
+    enter("""class ApplyConverterTests {""")
     println()
-
-    enter("""val tests: Tests = Tests {""")
-    println()
+    println("""object instances extends ApplyConverterInstances[String]""")
+    println("""import instances._""")
 
     def tupleValue(size: Int, offset: Int): String = {
       if (size == 1) {
@@ -33,16 +33,12 @@ class ApplyConverterTestGenerator(sourceManaged: File)
       val values        = tupleValue(size, 0)
       val tupleToString = (1 to size).map(i => s"$i").mkString(",")
 
-      enter(s"""test("converter for Tuple${size}") {""")
-
+      enter(s"""@Test def `converter for Tuple${size}`(): Unit = {""")
       println(s"""val acceptingTupledFunc: (Tuple${size}[${tpe}] => String) => String = func => func(${values})""")
-      println(s"""acceptingTupledFunc(toTupled${size}((${args}) => s"${argsToString}")) ==> "${tupleToString}" """)
+      println(s"""assertEquals("should match", "${tupleToString}", acceptingTupledFunc(toTupled${size}((${args}) => s"${argsToString}")))""")
       leave(s"""}""")
       println()
     }
-
-    leave("}")
-    println()
 
     leave("""}""")
   }

@@ -6,34 +6,34 @@ Tuple composition in Scala and Scala.js.
 
 ```scala
 // tupleN + scalar, scalar + tupleN, tupleN + tupleM, up to Tuple22
-"app.tulz" %%% "tuplez-full" % "0.3.1"
+"app.tulz" %%% "tuplez-full" % "0.3.3"
 
 // or
 
 // tupleN + scalar, scalar + tupleN, tupleN + tupleM, up to Tuple10
-"app.tulz" %%% "tuplez-full-light" % "0.3.1"
+"app.tulz" %%% "tuplez-full-light" % "0.3.3"
 
 // or
 
 // tupleN + scalar, up to Tuple22
-"app.tulz" %%% "tuplez-basic" % "0.3.1"
+"app.tulz" %%% "tuplez-basic" % "0.3.3"
 
 // or
 
 // tupleN + scalar, up to Tuple10 
-"app.tulz" %%% "tuplez-basic-light" % "0.3.1" 
+"app.tulz" %%% "tuplez-basic-light" % "0.3.3" 
 ```
 
 ```scala
 // utilities to build API's that allow using a FunctionN[A, B, C, ... Out] instead of Function1[TupleN[A, B, C, ...], Out] 
-"app.tulz" %%% "tuplez-apply" % "0.3.1"
+"app.tulz" %%% "tuplez-apply" % "0.3.3"
 ```
 
-Published for Scala `2.12` and `2.13`.
+Published for Scala `2.12`, `2.13`, `3.0.0-M3` and `3.0.0-RC1` (built with nightly scalac).
 
 ### Source code
 
-Source code is 100% generated. Snapshots as of `v0.3.1`:
+Source code is 100% generated. Snapshots as of `v0.3.3`:
 
 * `tuplez-full` – [gist](https://gist.github.com/yurique/2e465979e89bb86214a4ccb6a0adc66c)
 * `tuplez-full-light` – [gist](https://gist.github.com/yurique/80f8fb8701e49cfd749348015f1f546a)

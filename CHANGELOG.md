@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3
+
+Publishing for Scala 3.0.0-M3 and 3.0.0-RC1(nightly).
+
 ## 0.3.1
 
 #### `ApplyConverter`
