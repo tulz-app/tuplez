@@ -1,48 +1,22 @@
 ThisBuild / organization := "app.tulz"
 ThisBuild / homepage := Some(url("https://github.com/tulz-app/tuplez"))
-ThisBuild / licenses += ("MIT", url("https://github.com/tulz-app/tuplez/blob/main/LICENSE.md"))
-ThisBuild / developers := List(
-  Developer(
-    id = "yurique",
-    name = "Iurii Malchenko",
-    email = "i@yurique.com",
-    url = url("https://github.com/yurique")
-  )
-)
+ThisBuild / licenses += "MIT" -> url("https://github.com/tulz-app/tuplez/blob/main/LICENSE.md")
+ThisBuild / developers += Developer("yurique", "Iurii Malchenko", "i@yurique.com", url("https://github.com/yurique"))
 ThisBuild / publishTo := sonatypePublishToBundle.value
 ThisBuild / sonatypeProfileName := "yurique"
+ThisBuild / scmInfo := Some(ScmInfo(url("https://github.com/tulz-app/tuplez"), "scm:git@github.com/tulz-app/tuplez.git"))
 ThisBuild / publishArtifact in Test := false
-ThisBuild / scmInfo := Some(
-  ScmInfo(
-    url("https://github.com/tulz-app/tuplez"),
-    "scm:git@github.com/tulz-app/tuplez.git"
-  )
-)
-
 ThisBuild / githubWorkflowPublishTargetBranches := Seq()
 
 ThisBuild / scalaVersion := ScalaVersions.v3M3
 ThisBuild / crossScalaVersions := Seq(ScalaVersions.v3RC1, ScalaVersions.v3M3, ScalaVersions.v213, ScalaVersions.v212)
-
-lazy val noPublish = Seq(
-  publishLocal / skip := true,
-  publish / skip := true,
-  publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo")))
-)
-
-lazy val commonSettings = Seq(
-  libraryDependencies ++= Seq(
-    "junit"         % "junit"           % "4.11" % Test,
-    ("com.novocode" % "junit-interface" % "0.11" % Test).exclude("junit", "junit-dep")
-  )
-)
 
 lazy val `tuplez-full` =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("modules/full"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(commonSettings)
+    .settings(junitSettings)
     .settings(
       name := "tuplez-full",
       Compile / sourceGenerators += Def.task {
@@ -70,7 +44,7 @@ lazy val `tuplez-full-light` =
     .crossType(CrossType.Pure)
     .in(file("modules/full-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(commonSettings)
+    .settings(junitSettings)
     .settings(
       name := "tuplez-full-light",
       Compile / sourceGenerators += Def.task {
@@ -98,7 +72,7 @@ lazy val `tuplez-basic` =
     .crossType(CrossType.Pure)
     .in(file("modules/basic"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(commonSettings)
+    .settings(junitSettings)
     .settings(
       name := "tuplez-basic",
       Compile / sourceGenerators += Def.task {
@@ -126,7 +100,7 @@ lazy val `tuplez-basic-light` =
     .crossType(CrossType.Pure)
     .in(file("modules/basic-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(commonSettings)
+    .settings(junitSettings)
     .settings(
       name := "tuplez-basic-light",
       Compile / sourceGenerators += Def.task {
@@ -154,7 +128,7 @@ lazy val `tuplez-apply` =
     .crossType(CrossType.Pure)
     .in(file("modules/apply-js"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(commonSettings)
+    .settings(junitSettings)
     .settings(
       name := "tuplez-apply",
       Compile / sourceGenerators += Def.task {
@@ -177,6 +151,19 @@ lazy val `tuplez-apply` =
       },
       description := "Scala tuple composition."
     )
+
+lazy val junitSettings = Seq(
+  libraryDependencies ++= Seq(
+    "junit"         % "junit"           % "4.11" % Test,
+    ("com.novocode" % "junit-interface" % "0.11" % Test).exclude("junit", "junit-dep")
+  )
+)
+
+lazy val noPublish = Seq(
+  publishLocal / skip := true,
+  publish / skip := true,
+  publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo")))
+)
 
 lazy val root = project
   .in(file("."))

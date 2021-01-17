@@ -25,17 +25,17 @@ class TupleCompositionTestGenerator(sourceManaged: File, to: Int, testConcats: B
     println()
 
     enter("""@Test def `scalar+scalar`(): Unit = {""")
-    println("""assertEquals("composed should match", (1, 2), TupleComposition.compose(1, 2))""")
+    println("""assertEquals("composed should match", ("1", "2"), TupleComposition.compose("1", "2"))""")
     leave("}")
     println()
 
     enter("""@Test def `scalar+unit`(): Unit = {""")
-    println("""assertEquals("composed should match", 1, TupleComposition.compose(1, unit))""")
+    println("""assertEquals("composed should match", "1", TupleComposition.compose("1", unit))""")
     leave("}")
     println()
 
     enter("""@Test def `unit+scalar`(): Unit = {""")
-    println("""assertEquals("composed should match", 2, TupleComposition.compose(unit, 2))""")
+    println("""assertEquals("composed should match", "2", TupleComposition.compose(unit, "2"))""")
     leave("}")
     println()
 
