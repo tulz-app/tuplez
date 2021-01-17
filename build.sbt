@@ -31,13 +31,14 @@ lazy val noPublish = Seq(
   publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo")))
 )
 
-val scala213Version = "2.13.4"
-val scala212Version = "2.12.12"
-val scala3Version   = "3.0.0-RC1-bin-20210113-8345078-NIGHTLY"
+val scala213Version  = "2.13.4"
+val scala212Version  = "2.12.12"
+val scala3M3Version  = "3.0.0-M3"
+val scala3RC1Version = "3.0.0-RC1-bin-20210113-8345078-NIGHTLY"
 
 lazy val commonSettings = Seq(
-  scalaVersion := scala3Version,
-  crossScalaVersions := Seq(scala3Version, scala212Version, scala213Version),
+  scalaVersion := scala3RC1Version,
+  crossScalaVersions := Seq(scala3M3Version, scala3RC1Version, scala212Version, scala213Version),
   scalacOptions ++= Seq(
     "-unchecked",
     "-deprecation",
