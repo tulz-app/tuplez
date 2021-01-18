@@ -1,13 +1,3 @@
-ThisBuild / organization := "app.tulz"
-ThisBuild / homepage := Some(url("https://github.com/tulz-app/tuplez"))
-ThisBuild / licenses += "MIT" -> url("https://github.com/tulz-app/tuplez/blob/main/LICENSE.md")
-ThisBuild / developers += Developer("yurique", "Iurii Malchenko", "i@yurique.com", url("https://github.com/yurique"))
-ThisBuild / publishTo := sonatypePublishToBundle.value
-ThisBuild / sonatypeProfileName := "yurique"
-ThisBuild / scmInfo := Some(ScmInfo(url("https://github.com/tulz-app/tuplez"), "scm:git@github.com/tulz-app/tuplez.git"))
-ThisBuild / publishArtifact in Test := false
-ThisBuild / githubWorkflowPublishTargetBranches := Seq()
-
 ThisBuild / scalaVersion := ScalaVersions.v3M3
 ThisBuild / crossScalaVersions := Seq(ScalaVersions.v3RC1, ScalaVersions.v3M3, ScalaVersions.v213, ScalaVersions.v212)
 
@@ -16,7 +6,7 @@ lazy val `tuplez-full` =
     .crossType(CrossType.Pure)
     .in(file("modules/full"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(junitSettings)
+    .settings(commonSettings)
     .settings(
       name := "tuplez-full",
       Compile / sourceGenerators += Def.task {
@@ -44,7 +34,7 @@ lazy val `tuplez-full-light` =
     .crossType(CrossType.Pure)
     .in(file("modules/full-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(junitSettings)
+    .settings(commonSettings)
     .settings(
       name := "tuplez-full-light",
       Compile / sourceGenerators += Def.task {
@@ -72,7 +62,7 @@ lazy val `tuplez-basic` =
     .crossType(CrossType.Pure)
     .in(file("modules/basic"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(junitSettings)
+    .settings(commonSettings)
     .settings(
       name := "tuplez-basic",
       Compile / sourceGenerators += Def.task {
@@ -100,7 +90,7 @@ lazy val `tuplez-basic-light` =
     .crossType(CrossType.Pure)
     .in(file("modules/basic-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(junitSettings)
+    .settings(commonSettings)
     .settings(
       name := "tuplez-basic-light",
       Compile / sourceGenerators += Def.task {
@@ -128,7 +118,7 @@ lazy val `tuplez-apply` =
     .crossType(CrossType.Pure)
     .in(file("modules/apply"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(junitSettings)
+    .settings(commonSettings)
     .settings(
       name := "tuplez-apply",
       Compile / sourceGenerators += Def.task {
@@ -148,15 +138,15 @@ lazy val `tuplez-apply` =
         files.map { f =>
           (f, f.relativeTo(base / "scala").get.getPath)
         }
-      },
-      description := "Scala tuple composition."
+      }
     )
 
-lazy val junitSettings = Seq(
+lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "junit"         % "junit"           % "4.11" % Test,
     ("com.novocode" % "junit-interface" % "0.11" % Test).exclude("junit", "junit-dep")
-  )
+  ),
+  scalacOptions in (Compile, doc) ~= (_.filter(_.startsWith("-Xplugin")))
 )
 
 lazy val noPublish = Seq(
