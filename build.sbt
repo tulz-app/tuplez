@@ -126,7 +126,7 @@ lazy val `tuplez-basic-light` =
 lazy val `tuplez-apply` =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
-    .in(file("modules/apply-js"))
+    .in(file("modules/apply"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
     .settings(junitSettings)
     .settings(
