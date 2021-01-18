@@ -146,7 +146,22 @@ lazy val commonSettings = Seq(
     "junit"         % "junit"           % "4.11" % Test,
     ("com.novocode" % "junit-interface" % "0.11" % Test).exclude("junit", "junit-dep")
   ),
-  scalacOptions in (Compile, doc) ~= (_.filter(_.startsWith("-Xplugin")))
+  scalacOptions in (Compile, doc) ~= (_.filterNot(
+    Set(
+      "-scalajs",
+      "-deprecation",
+      "-explain-types",
+      "-explain",
+      "-feature",
+      "-language:existentials,experimental.macros,higherKinds,implicitConversions",
+      "-unchecked",
+      "-Xfatal-warnings",
+      "-Ykind-projector",
+      "-from-tasty",
+      "-encoding",
+      "utf8",
+    )
+  ))
 )
 
 lazy val noPublish = Seq(
