@@ -1,5 +1,28 @@
-ThisBuild / scalaVersion := ScalaVersions.v3RC1
-ThisBuild / crossScalaVersions := Seq(ScalaVersions.v3RC1, ScalaVersions.v213, ScalaVersions.v212)
+inThisBuild(
+  List(
+    organization := "app.tulz",
+    homepage := Some(url("https://github.com/tulz-app/tuplez")),
+    licenses := List("MIT" -> url("https://github.com/tulz-app/tuplez/blob/main/LICENSE.md")),
+    developers := List(Developer("yurique", "Iurii Malchenko", "i@yurique.com", url("https://github.com/yurique"))),
+    scmInfo := Some(ScmInfo(url("https://github.com/tulz-app/tuplez"), "scm:git@github.com/tulz-app/tuplez.git")),
+    publishArtifact in Test := false,
+    scalaVersion := ScalaVersions.v213,
+    crossScalaVersions := Seq(
+      ScalaVersions.v3RC1,
+      ScalaVersions.v213,
+      ScalaVersions.v212
+    ),
+    githubWorkflowTargetTags ++= Seq("v*"),
+    githubWorkflowPublishTargetBranches += RefPredicate.StartsWith(Ref.Tag("v")),
+    githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release"))),
+    githubWorkflowEnv ~= (_ ++ Map(
+      "PGP_PASSPHRASE"    -> s"$${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET"        -> s"$${{ secrets.PGP_SECRET }}",
+      "SONATYPE_PASSWORD" -> s"$${{ secrets.SONATYPE_PASSWORD }}",
+      "SONATYPE_USERNAME" -> s"$${{ secrets.SONATYPE_USERNAME }}"
+    ))
+  )
+)
 
 lazy val `tuplez-full` =
   crossProject(JVMPlatform, JSPlatform)
@@ -144,7 +167,7 @@ lazy val `tuplez-apply` =
 lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "junit"         % "junit"           % "4.13.2" % Test,
-    ("com.novocode" % "junit-interface" % "0.11" % Test).exclude("junit", "junit-dep")
+    ("com.novocode" % "junit-interface" % "0.11"   % Test).exclude("junit", "junit-dep")
   ),
   scalacOptions in (Compile, doc) ~= (_.filterNot(
     Set(
