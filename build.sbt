@@ -45,13 +45,6 @@ lazy val `tuplez-full` =
           new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = true, testPrepends = true).generate()
         )
       }.taskValue,
-      (Compile / packageSrc / mappings) := {
-        val base  = (Compile / sourceManaged).value
-        val files = (Compile / managedSources).value
-        files.map { f =>
-          (f, f.relativeTo(base / "scala").get.getPath)
-        }
-      },
       description := "Scala tuple composition."
     )
 
@@ -74,13 +67,6 @@ lazy val `tuplez-full-light` =
           new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = true, testPrepends = true).generate()
         )
       }.taskValue,
-      (Compile / packageSrc / mappings) := {
-        val base  = (Compile / sourceManaged).value
-        val files = (Compile / managedSources).value
-        files.map { f =>
-          (f, f.relativeTo(base / "scala").get.getPath)
-        }
-      },
       description := "Scala tuple composition."
     )
 
@@ -103,13 +89,6 @@ lazy val `tuplez-basic` =
           new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = false, testPrepends = false).generate()
         )
       }.taskValue,
-      (Compile / packageSrc / mappings) := {
-        val base  = (Compile / sourceManaged).value
-        val files = (Compile / managedSources).value
-        files.map { f =>
-          (f, f.relativeTo(base / "scala").get.getPath)
-        }
-      },
       description := "Scala tuple composition."
     )
 
@@ -132,13 +111,6 @@ lazy val `tuplez-basic-light` =
           new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = false, testPrepends = false).generate()
         )
       }.taskValue,
-      (Compile / packageSrc / mappings) := {
-        val base  = (Compile / sourceManaged).value
-        val files = (Compile / managedSources).value
-        files.map { f =>
-          (f, f.relativeTo(base / "scala").get.getPath)
-        }
-      },
       description := "Scala tuple composition."
     )
 
@@ -162,13 +134,7 @@ lazy val `tuplez-apply` =
           new ApplyConverterTestGenerator((Test / sourceManaged).value).generate()
         )
       }.taskValue,
-      (Compile / packageSrc / mappings) := {
-        val base  = (Compile / sourceManaged).value
-        val files = (Compile / managedSources).value
-        files.map { f =>
-          (f, f.relativeTo(base / "scala").get.getPath)
-        }
-      }
+      description := "Scala function apply converters."
     )
 
 lazy val commonSettings = Seq(
