@@ -165,7 +165,6 @@ lazy val commonSettings = Seq(
     (CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((3, _)) => {
         // temp, doesn't work with Scala 3
-        println(s"skipping version policy check for Scala ${scalaVersion.value}")
         Compatibility.None
       }
       case _ => versionPolicyIntention.value
