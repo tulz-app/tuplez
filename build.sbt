@@ -14,6 +14,8 @@ inThisBuild(
       ScalaVersions.v213,
       ScalaVersions.v212
     ),
+    ThisBuild / versionScheme := Some("early-semver"),
+    versionPolicyIntention := Compatibility.BinaryCompatible,
     githubWorkflowTargetTags ++= Seq("v*"),
     githubWorkflowPublishTargetBranches += RefPredicate.StartsWith(Ref.Tag("v")),
     githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release"))),
