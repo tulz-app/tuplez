@@ -33,14 +33,7 @@ Published for Scala `2.12`, `2.13` and `3.0.0-RC1`.
 
 ### Source code
 
-Source code is 100% generated. Snapshots as of `v0.3.3`:
-
-* `tuplez-full` – [gist](https://gist.github.com/yurique/2e465979e89bb86214a4ccb6a0adc66c)
-* `tuplez-full-light` – [gist](https://gist.github.com/yurique/80f8fb8701e49cfd749348015f1f546a)
-* `tuplez-basic` – [gist](https://gist.github.com/yurique/6f53c0da31b30c6f637b6292aedfd144)
-* `tuplez-basic-light` – [gist](https://gist.github.com/yurique/482ca61973266dead614367b5ee833f7)
-* `tuplez-apply` – [gist](https://gist.github.com/yurique/d91802e5758e5b85b4c49bc024c23abf) + [gist](https://gist.github.com/yurique/1fac62007c52a00d90c058241bb797b3)
-
+Source code is 100% generated. 
 
 ## Composition
 

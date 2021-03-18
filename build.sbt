@@ -18,6 +18,7 @@ inThisBuild(
     versionPolicyIntention := Compatibility.BinaryCompatible,
     githubWorkflowTargetTags ++= Seq("v*"),
     githubWorkflowPublishTargetBranches += RefPredicate.StartsWith(Ref.Tag("v")),
+    githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("versionPolicyCheck"))),
     githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release"))),
     githubWorkflowEnv ~= (_ ++ Map(
       "PGP_PASSPHRASE"    -> s"$${{ secrets.PGP_PASSPHRASE }}",
@@ -159,7 +160,16 @@ lazy val commonSettings = Seq(
       "-encoding",
       "utf8",
     )
-  ))
+  )),
+  versionPolicyIntention :=
+    (CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((3, _)) => {
+        // temp, doesn't work with Scala 3
+        println(s"skipping version policy check for Scala ${scalaVersion.value}")
+        Compatibility.None
+      }
+      case _ => versionPolicyIntention.value
+    })
 )
 
 lazy val commonJsSettings = Seq(
@@ -186,7 +196,8 @@ lazy val noPublish = Seq(
 lazy val root = project
   .in(file("."))
   .settings(
-    name := "tuplez"
+    name := "tuplez",
+    versionPolicyCheck := {},
   )
   .settings(noPublish)
   .aggregate(
