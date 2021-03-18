@@ -1,3 +1,5 @@
+import sbt.librarymanagement.CrossVersion
+
 inThisBuild(
   List(
     organization := "app.tulz",
@@ -5,7 +7,7 @@ inThisBuild(
     licenses := List("MIT" -> url("https://github.com/tulz-app/tuplez/blob/main/LICENSE.md")),
     developers := List(Developer("yurique", "Iurii Malchenko", "i@yurique.com", url("https://github.com/yurique"))),
     scmInfo := Some(ScmInfo(url("https://github.com/tulz-app/tuplez"), "scm:git@github.com/tulz-app/tuplez.git")),
-    publishArtifact in Test := false,
+    (Test / publishArtifact) := false,
     scalaVersion := ScalaVersions.v213,
     crossScalaVersions := Seq(
       ScalaVersions.v3RC1,
@@ -30,11 +32,12 @@ lazy val `tuplez-full` =
     .in(file("modules/full"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
     .settings(commonSettings)
+    .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-full",
       Compile / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionGenerator((Compile / sourceManaged).value, to = 22, generateConcats = true, generatePrepends = true).generate()
+          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, generateConcats = true, generatePrepends = true).generate()
         )
       }.taskValue,
       Test / sourceGenerators += Def.task {
@@ -42,9 +45,9 @@ lazy val `tuplez-full` =
           new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = true, testPrepends = true).generate()
         )
       }.taskValue,
-      mappings in (Compile, packageSrc) := {
-        val base  = (sourceManaged in Compile).value
-        val files = (managedSources in Compile).value
+      (Compile / packageSrc / mappings) := {
+        val base  = (Compile / sourceManaged).value
+        val files = (Compile / managedSources).value
         files.map { f =>
           (f, f.relativeTo(base / "scala").get.getPath)
         }
@@ -58,11 +61,12 @@ lazy val `tuplez-full-light` =
     .in(file("modules/full-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
     .settings(commonSettings)
+    .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-full-light",
       Compile / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionGenerator((Compile / sourceManaged).value, to = 10, generateConcats = true, generatePrepends = true).generate()
+          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, generateConcats = true, generatePrepends = true).generate()
         )
       }.taskValue,
       Test / sourceGenerators += Def.task {
@@ -70,9 +74,9 @@ lazy val `tuplez-full-light` =
           new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = true, testPrepends = true).generate()
         )
       }.taskValue,
-      mappings in (Compile, packageSrc) := {
-        val base  = (sourceManaged in Compile).value
-        val files = (managedSources in Compile).value
+      (Compile / packageSrc / mappings) := {
+        val base  = (Compile / sourceManaged).value
+        val files = (Compile / managedSources).value
         files.map { f =>
           (f, f.relativeTo(base / "scala").get.getPath)
         }
@@ -86,11 +90,12 @@ lazy val `tuplez-basic` =
     .in(file("modules/basic"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
     .settings(commonSettings)
+    .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-basic",
       Compile / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionGenerator((Compile / sourceManaged).value, to = 22, generateConcats = false, generatePrepends = false).generate()
+          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, generateConcats = false, generatePrepends = false).generate()
         )
       }.taskValue,
       Test / sourceGenerators += Def.task {
@@ -98,9 +103,9 @@ lazy val `tuplez-basic` =
           new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = false, testPrepends = false).generate()
         )
       }.taskValue,
-      mappings in (Compile, packageSrc) := {
-        val base  = (sourceManaged in Compile).value
-        val files = (managedSources in Compile).value
+      (Compile / packageSrc / mappings) := {
+        val base  = (Compile / sourceManaged).value
+        val files = (Compile / managedSources).value
         files.map { f =>
           (f, f.relativeTo(base / "scala").get.getPath)
         }
@@ -114,11 +119,12 @@ lazy val `tuplez-basic-light` =
     .in(file("modules/basic-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
     .settings(commonSettings)
+    .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-basic-light",
       Compile / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionGenerator((Compile / sourceManaged).value, to = 10, generateConcats = false, generatePrepends = false).generate()
+          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, generateConcats = false, generatePrepends = false).generate()
         )
       }.taskValue,
       Test / sourceGenerators += Def.task {
@@ -126,9 +132,9 @@ lazy val `tuplez-basic-light` =
           new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = false, testPrepends = false).generate()
         )
       }.taskValue,
-      mappings in (Compile, packageSrc) := {
-        val base  = (sourceManaged in Compile).value
-        val files = (managedSources in Compile).value
+      (Compile / packageSrc / mappings) := {
+        val base  = (Compile / sourceManaged).value
+        val files = (Compile / managedSources).value
         files.map { f =>
           (f, f.relativeTo(base / "scala").get.getPath)
         }
@@ -142,12 +148,13 @@ lazy val `tuplez-apply` =
     .in(file("modules/apply"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
     .settings(commonSettings)
+    .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-apply",
       Compile / sourceGenerators += Def.task {
         Seq.concat(
-          new ApplyConverterGenerator((Compile / sourceManaged).value).generate(),
-          new ApplyConverterInstancesGenerator((Compile / sourceManaged).value).generate()
+          new ApplyConverterGenerator((Compile / sharedScalaSource).value).generate(),
+          new ApplyConverterInstancesGenerator((Compile / sharedScalaSource).value).generate()
         )
       }.taskValue,
       Test / sourceGenerators += Def.task {
@@ -155,9 +162,9 @@ lazy val `tuplez-apply` =
           new ApplyConverterTestGenerator((Test / sourceManaged).value).generate()
         )
       }.taskValue,
-      mappings in (Compile, packageSrc) := {
-        val base  = (sourceManaged in Compile).value
-        val files = (managedSources in Compile).value
+      (Compile / packageSrc / mappings) := {
+        val base  = (Compile / sourceManaged).value
+        val files = (Compile / managedSources).value
         files.map { f =>
           (f, f.relativeTo(base / "scala").get.getPath)
         }
@@ -169,7 +176,7 @@ lazy val commonSettings = Seq(
     "junit"         % "junit"           % "4.13.2" % Test,
     ("com.novocode" % "junit-interface" % "0.11"   % Test).exclude("junit", "junit-dep")
   ),
-  scalacOptions in (Compile, doc) ~= (_.filterNot(
+  (Compile / doc / scalacOptions) ~= (_.filterNot(
     Set(
       "-scalajs",
       "-deprecation",
@@ -185,6 +192,21 @@ lazy val commonSettings = Seq(
       "utf8",
     )
   ))
+)
+
+lazy val commonJsSettings = Seq(
+  scalacOptions ++= {
+    val sourcesGithubUrl = s"https://raw.githubusercontent.com/tulz-app/tuplez/${git.gitHeadCommit.value.get}/"
+    val sourcesOptionName = CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, _)) => "-P:scalajs:mapSourceURI"
+      case Some((3, _)) => "-scalajs-mapSourceURI"
+      case _            => throw new RuntimeException(s"unexpected scalaVersion: ${scalaVersion.value}")
+    }
+    val moduleSourceRoot = file("").toURI.toString
+    Seq(
+      s"$sourcesOptionName:$moduleSourceRoot->$sourcesGithubUrl"
+    )
+  }
 )
 
 lazy val noPublish = Seq(

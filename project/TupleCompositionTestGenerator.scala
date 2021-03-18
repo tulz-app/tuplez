@@ -4,7 +4,7 @@ import java.io.File
 
 class TupleCompositionTestGenerator(sourceManaged: File, to: Int, testConcats: Boolean, testPrepends: Boolean)
     extends SourceGenerator(
-      sourceManaged / "scala" / "app" / "tulz" / "tuplez" / "TupleCompositionTests.scala"
+      sourceManaged / "app" / "tulz" / "tuplez" / "TupleCompositionTests.scala"
     ) {
 
   def doGenerate(): Unit = {

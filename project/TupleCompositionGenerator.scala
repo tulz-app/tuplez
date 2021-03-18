@@ -3,7 +3,7 @@ import java.io.File
 
 class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: Boolean, generatePrepends: Boolean)
     extends SourceGenerator(
-      sourceManaged / "scala" / "app" / "tulz" / "tuplez" / "TupleComposition.scala"
+      sourceManaged / "app" / "tulz" / "tuplez" / "TupleComposition.scala"
     ) {
 
   def doGenerate(): Unit = {
