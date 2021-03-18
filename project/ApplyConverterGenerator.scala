@@ -4,7 +4,7 @@ import java.io.File
 
 class ApplyConverterGenerator(sourceManaged: File)
     extends SourceGenerator(
-      sourceManaged / "scala" / "app" / "tulz" / "tuplez" / "ApplyConverter.scala"
+      sourceManaged / "app" / "tulz" / "tuplez" / "ApplyConverter.scala"
     ) {
 
   def doGenerate(): Unit = {
