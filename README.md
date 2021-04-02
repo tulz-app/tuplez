@@ -6,30 +6,30 @@ Tuple composition in Scala and Scala.js.
 
 ```scala
 // tupleN + scalar, scalar + tupleN, tupleN + tupleM, up to Tuple22
-"app.tulz" %%% "tuplez-full" % "0.3.5"
+"app.tulz" %%% "tuplez-full" % "0.3.6"
 
 // or
 
 // tupleN + scalar, scalar + tupleN, tupleN + tupleM, up to Tuple10
-"app.tulz" %%% "tuplez-full-light" % "0.3.5"
+"app.tulz" %%% "tuplez-full-light" % "0.3.6"
 
 // or
 
 // tupleN + scalar, up to Tuple22
-"app.tulz" %%% "tuplez-basic" % "0.3.5"
+"app.tulz" %%% "tuplez-basic" % "0.3.6"
 
 // or
 
 // tupleN + scalar, up to Tuple10 
-"app.tulz" %%% "tuplez-basic-light" % "0.3.5" 
+"app.tulz" %%% "tuplez-basic-light" % "0.3.6" 
 ```
 
 ```scala
 // utilities to build API's that allow using a FunctionN[A, B, C, ... Out] instead of Function1[TupleN[A, B, C, ...], Out] 
-"app.tulz" %%% "tuplez-apply" % "0.3.5"
+"app.tulz" %%% "tuplez-apply" % "0.3.6"
 ```
 
-Published for Scala `2.12`, `2.13` and `3.0.0-RC1`, JVM and Scala.js 1.5.0+.
+Published for Scala `2.12`, `2.13` and `3.0.0-RC2`, JVM and Scala.js 1.5.1+.
 
 ### Source code
 

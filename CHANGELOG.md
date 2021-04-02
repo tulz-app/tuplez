@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.6
+
+Publishing for Scala 3.0.0-RC2.
+
 ## 0.3.4
 
 Publishing for Scala 3.0.0-RC1.
