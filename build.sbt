@@ -17,7 +17,7 @@ inThisBuild(
     ThisBuild / versionScheme := Some("early-semver"),
     versionPolicyIntention := Compatibility.BinaryCompatible,
     githubWorkflowTargetTags ++= Seq("v*"),
-    githubWorkflowPublishTargetBranches += RefPredicate.StartsWith(Ref.Tag("v")),
+    githubWorkflowPublishTargetBranches := Seq(RefPredicate.StartsWith(Ref.Tag("v"))),
     githubWorkflowBuild ++= Seq(WorkflowStep.Sbt(List("versionPolicyCheck"))),
     githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release"))),
     githubWorkflowEnv ~= (_ ++ Map(
