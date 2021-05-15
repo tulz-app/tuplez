@@ -29,7 +29,7 @@ Tuple composition in Scala and Scala.js.
 "app.tulz" %%% "tuplez-apply" % "0.3.6"
 ```
 
-Published for Scala `2.12`, `2.13` and `3.0.0-RC2`, JVM and Scala.js 1.5.1+.
+Published for Scala `2.12`, `2.13` and `3.0.0`, JVM and Scala.js 1.5.1+.
 
 ### Source code
 

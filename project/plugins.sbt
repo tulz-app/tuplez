@@ -14,10 +14,10 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.7")
 
 addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.10.1")
 
-addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.6")
+addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.7")
 
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.17")
 
-addSbtPlugin("ch.epfl.scala" % "sbt-version-policy" % "1.0.0-RC5")
+addSbtPlugin("ch.epfl.scala" % "sbt-version-policy" % "1.0.1")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "1.0.0")
