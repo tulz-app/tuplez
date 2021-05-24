@@ -2,7 +2,7 @@
 
 ## 0.3.6
 
-Publishing for Scala 3.0.0-RC2.
+Publishing for Scala 3.0.0.
 
 ## 0.3.4
 
