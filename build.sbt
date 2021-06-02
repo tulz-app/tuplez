@@ -144,31 +144,7 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "junit"         % "junit"           % "4.13.2" % Test,
     ("com.novocode" % "junit-interface" % "0.11"   % Test).exclude("junit", "junit-dep")
-  ),
-  (Compile / doc / scalacOptions) ~= (_.filterNot(
-    Set(
-      "-scalajs",
-      "-deprecation",
-      "-explain-types",
-      "-explain",
-      "-feature",
-      "-language:existentials,experimental.macros,higherKinds,implicitConversions",
-      "-unchecked",
-      "-Xfatal-warnings",
-      "-Ykind-projector",
-      "-from-tasty",
-      "-encoding",
-      "utf8",
-    )
-  )),
-  versionPolicyIntention :=
-    (CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((3, _)) => {
-        // temp, doesn't work with Scala 3
-        Compatibility.None
-      }
-      case _ => versionPolicyIntention.value
-    })
+  )
 )
 
 lazy val commonJsSettings = Seq(
