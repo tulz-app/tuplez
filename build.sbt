@@ -2,20 +2,20 @@ import sbt.librarymanagement.CrossVersion
 
 inThisBuild(
   List(
-    organization := "app.tulz",
-    homepage := Some(url("https://github.com/tulz-app/tuplez")),
-    licenses := List("MIT" -> url("https://github.com/tulz-app/tuplez/blob/main/LICENSE.md")),
-    developers := List(Developer("yurique", "Iurii Malchenko", "i@yurique.com", url("https://github.com/yurique"))),
-    scmInfo := Some(ScmInfo(url("https://github.com/tulz-app/tuplez"), "scm:git@github.com/tulz-app/tuplez.git")),
+    organization             := "app.tulz",
+    homepage                 := Some(url("https://github.com/tulz-app/tuplez")),
+    licenses                 := List("MIT" -> url("https://github.com/tulz-app/tuplez/blob/main/LICENSE.md")),
+    developers               := List(Developer("yurique", "Iurii Malchenko", "i@yurique.com", url("https://github.com/yurique"))),
+    scmInfo                  := Some(ScmInfo(url("https://github.com/tulz-app/tuplez"), "scm:git@github.com/tulz-app/tuplez.git")),
     (Test / publishArtifact) := false,
-    scalaVersion := ScalaVersions.v213,
+    scalaVersion             := ScalaVersions.v213,
     crossScalaVersions := Seq(
       ScalaVersions.v3,
       ScalaVersions.v213,
       ScalaVersions.v212
     ),
     ThisBuild / versionScheme := Some("early-semver"),
-    versionPolicyIntention := Compatibility.BinaryCompatible,
+    versionPolicyIntention    := Compatibility.BinaryCompatible,
     githubWorkflowTargetTags ++= Seq("v*"),
     githubWorkflowPublishTargetBranches := Seq(RefPredicate.StartsWith(Ref.Tag("v"))),
     githubWorkflowBuild ++= Seq(WorkflowStep.Sbt(List("versionPolicyCheck"))),
@@ -164,14 +164,14 @@ lazy val commonJsSettings = Seq(
 
 lazy val noPublish = Seq(
   publishLocal / skip := true,
-  publish / skip := true,
-  publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo")))
+  publish / skip      := true,
+  publishTo           := Some(Resolver.file("Unused transient repository", file("target/unusedrepo")))
 )
 
 lazy val root = project
   .in(file("."))
   .settings(
-    name := "tuplez",
+    name               := "tuplez",
     versionPolicyCheck := {},
   )
   .settings(noPublish)

@@ -1,4 +1,5 @@
 import sbt._
+
 import java.io.File
 
 class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: Boolean, generatePrepends: Boolean)
