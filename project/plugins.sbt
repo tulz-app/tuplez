@@ -4,7 +4,7 @@ val scalajsVersion = scala.sys.env.getOrElse("SCALAJS_VERSION", "1.5.1")
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalajsVersion)
 
-addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.0.0")
+addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.2.0")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
 
