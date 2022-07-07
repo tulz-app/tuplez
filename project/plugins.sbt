@@ -18,6 +18,6 @@ addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.7")
 
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.20")
 
-addSbtPlugin("ch.epfl.scala" % "sbt-version-policy" % "1.0.1")
+addSbtPlugin("ch.epfl.scala" % "sbt-version-policy" % "1.2.1")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "1.0.0")
