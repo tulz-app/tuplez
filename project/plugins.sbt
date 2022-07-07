@@ -1,6 +1,6 @@
 logLevel := Level.Warn
 
-val scalajsVersion = scala.sys.env.getOrElse("SCALAJS_VERSION", "1.5.1")
+val scalajsVersion = scala.sys.env.getOrElse("SCALAJS_VERSION", "1.10.1")
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalajsVersion)
 
