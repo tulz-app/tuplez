@@ -142,8 +142,8 @@ lazy val `tuplez-apply` =
 
 lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
-    "junit"         % "junit"           % "4.13.2" % Test,
-    ("com.novocode" % "junit-interface" % "0.11"   % Test).exclude("junit", "junit-dep")
+    "junit"           % "junit"           % "4.13.2" % Test,
+    ("com.github.sbt" % "junit-interface" % "0.13.3" % Test).exclude("junit", "junit-dep")
   )
 )
 
