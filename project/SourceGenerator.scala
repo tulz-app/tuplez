@@ -10,14 +10,12 @@ abstract class SourceGenerator(file: File) {
   private val printStream = new PrintStream(new FileOutputStream(file))
   private var indent      = ""
 
-  protected def enter(s: String = ""): Unit = {
+  protected def enter(s: String = "")(leave: String = "")(body: => Unit): Unit = {
     println(s)
     indent = indent + "  "
-  }
-
-  protected def leave(s: String = ""): Unit = {
+    body
     indent = indent.substring(0, indent.length - 2)
-    println(s)
+    println(leave)
   }
 
   protected def println(s: String): Unit = {
@@ -42,8 +40,14 @@ abstract class SourceGenerator(file: File) {
   protected def tupleAccessRaw(size: Int, varName: String): Seq[String] =
     (1 to size).map(i => s"${varName}._${i}")
 
+  protected def tupleAccessRaw(from: Int, toIndex: Int, varName: String): Seq[String] =
+    (from to toIndex).map(i => s"${varName}._${i}")
+
   protected def tupleAccess(size: Int, varName: String): String =
     tupleAccessRaw(size, varName).mkString(", ")
+
+  protected def tupleAccess(from: Int, to: Int, varName: String): String =
+    tupleAccessRaw(from, to, varName).mkString(", ")
 
   final def generate(): Seq[File] = {
     doGenerate()

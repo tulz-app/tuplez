@@ -34,6 +34,7 @@ lazy val `tuplez-full` =
     .crossType(CrossType.Pure)
     .in(file("modules/full"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
+    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -56,6 +57,7 @@ lazy val `tuplez-full-light` =
     .crossType(CrossType.Pure)
     .in(file("modules/full-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
+    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -78,6 +80,7 @@ lazy val `tuplez-basic` =
     .crossType(CrossType.Pure)
     .in(file("modules/basic"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
+    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -100,6 +103,7 @@ lazy val `tuplez-basic-light` =
     .crossType(CrossType.Pure)
     .in(file("modules/basic-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
+    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -122,6 +126,7 @@ lazy val `tuplez-apply` =
     .crossType(CrossType.Pure)
     .in(file("modules/apply"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
+    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -144,7 +149,9 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "junit"           % "junit"           % "4.13.2" % Test,
     ("com.github.sbt" % "junit-interface" % "0.13.3" % Test).exclude("junit", "junit-dep")
-  )
+  ),
+  scalacOptions := scalacOptions.value.filterNot(_ == "-Wdead-code"),
+//  scalacOptions := scalacOptions.value.filterNot(_ == "-Xfatal-warnings")
 )
 
 lazy val commonJsSettings = Seq(
