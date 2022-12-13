@@ -61,7 +61,7 @@ jobs:
       - name: Build project
         run: sbt ++${{ matrix.scala }} test
 
-      - run: sbt ++${{ matrix.scala }} versionPolicyCheck
+      - run: sbt ++${{ matrix.scala }} versionPolicyCheck test
 
       - name: Compress target directories
         run: tar cf targets.tar modules/apply/.js/target target modules/apply/.jvm/target modules/full/.js/target modules/full/.jvm/target modules/basic/.js/target modules/basic-light/.jvm/target modules/basic/.jvm/target modules/full-light/.js/target modules/basic-light/.js/target modules/full-light/.jvm/target project/target
