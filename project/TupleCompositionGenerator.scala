@@ -14,7 +14,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
     R: String,
     O: String,
     compose: String,
-    unapply: String,
+    decompose: String,
   ): Unit = {
     enter(s"""implicit def `$name`${if (typeParams.nonEmpty) s"[$typeParams]" else ""}: Composition.Aux[$L, $R, $O] = new Composition[$L, $R] {""")("}") {
       println()
@@ -23,8 +23,8 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
       enter(s"val compose: ($L, $R) => $O = (l, r) =>")("") {
         println(compose)
       }
-      enter(s"def unapply(c: $O): ($L, $R) =")("") {
-        println(unapply)
+      enter(s"def decompose(c: $O): ($L, $R) =")("") {
+        println(decompose)
       }
     }
   }
@@ -35,14 +35,14 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
     enter("""object TupleComposition {""")("}") {
       println()
       println("""def compose[L, R](l: L, r: R)(implicit composition: Composition[L, R]): composition.Composed = composition.compose(l, r)""")
-      println("""def unapply[L, R, C](c: C)(implicit composition: Composition.Aux[L, R, C]): (L, R)           = composition.unapply(c)""".stripMargin)
+      println("""def decompose[L, R, C](c: C)(implicit composition: Composition.Aux[L, R, C]): (L, R)         = composition.decompose(c)""".stripMargin)
       println()
     }
     println()
     enter("""abstract class Composition[L, R] {""")("}") {
       println("""type Composed""")
       println("""val compose: (L, R) => Composed""")
-      println("""def unapply(c: Composed): (L, R)""")
+      println("""def decompose(c: Composed): (L, R)""")
     }
     println()
     enter("""trait Composition_Pri0 {""")("}") {
@@ -53,7 +53,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = "B",
         O = "Tuple2[A, B]",
         compose = "Tuple2(l, r)",
-        unapply = "c"
+        decompose = "c"
       )
     }
     println()
@@ -66,7 +66,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = "R",
         O = "Tuple2[L, R]",
         compose = "Tuple2(l._1, r)",
-        unapply = "Tuple2(Tuple1(c._1), c._2)"
+        decompose = "Tuple2(Tuple1(c._1), c._2)"
       )
 
       newComposition(
@@ -76,7 +76,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = "Tuple1[R]",
         O = "Tuple2[L, R]",
         compose = "Tuple2(l, r._1)",
-        unapply = "Tuple2(c._1, Tuple1(c._2))"
+        decompose = "Tuple2(c._1, Tuple1(c._2))"
       )
     }
 
@@ -101,7 +101,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = "Unit",
         O = "Unit",
         compose = "()",
-        unapply = "((), ())"
+        decompose = "((), ())"
       )
 
       println()
@@ -118,7 +118,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = s"R",
         O = s"(${left}, R)",
         compose = s"(${tupleAccess(size - 1, "l")}, r)",
-        unapply = s"((${tupleAccess(size - 1, "c")}), c._${size})"
+        decompose = s"((${tupleAccess(size - 1, "c")}), c._${size})"
       )
     }
 
@@ -131,7 +131,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = s"(${right})",
         O = s"(L, ${right})",
         compose = s"(l, ${tupleAccess(size - 1, "r")})",
-        unapply = s"(c._1, (${tupleAccess(2, size, "c")}))"
+        decompose = s"(c._1, (${tupleAccess(2, size, "c")}))"
       )
     }
 
@@ -157,7 +157,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = s"Tuple1[R]",
         O = s"(${left}, R)",
         compose = s"(${tupleAccess(size, "l")}, r._1)",
-        unapply = s"((${tupleAccess(1, size, "c")}), Tuple1(c._${size + 1}))"
+        decompose = s"((${tupleAccess(1, size, "c")}), Tuple1(c._${size + 1}))"
       )
     }
 
@@ -170,7 +170,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = s"(${right})",
         O = s"(L, ${right})",
         compose = s"(l._1, ${tupleAccess(size, "r")})",
-        unapply = s"(Tuple1(c._1), (${tupleAccess(2, size + 1, "c")}))"
+        decompose = s"(Tuple1(c._1), (${tupleAccess(2, size + 1, "c")}))"
       )
     }
 
@@ -184,7 +184,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = s"(${right})",
         O = s"(${left}, ${right})",
         compose = s"(${tupleAccess(size1, "l")}, ${tupleAccess(size2, "r")})",
-        unapply = s"((${tupleAccess(1, size1, "c")}), (${tupleAccess(size1 + 1, size1 + size2, "c")}))"
+        decompose = s"((${tupleAccess(1, size1, "c")}), (${tupleAccess(size1 + 1, size1 + size2, "c")}))"
       )
     }
 
@@ -197,7 +197,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = s"Tuple1[R]",
         O = s"Tuple2[L, R]",
         compose = s"(l._1, r._1)",
-        unapply = s"(Tuple1(c._1), Tuple1(c._2))",
+        decompose = s"(Tuple1(c._1), Tuple1(c._2))",
       )
       println()
 
@@ -221,7 +221,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = s"A",
         O = s"A",
         compose = s"r",
-        unapply = s"((), c)"
+        decompose = s"((), c)"
       )
 
       newComposition(
@@ -231,7 +231,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
         R = s"Unit",
         O = s"A",
         compose = s"l",
-        unapply = s"(c, ())"
+        decompose = s"(c, ())"
       )
 
       println()

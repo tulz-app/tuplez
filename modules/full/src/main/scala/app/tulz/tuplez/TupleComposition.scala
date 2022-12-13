@@ -3,14 +3,14 @@ package app.tulz.tuplez
 object TupleComposition {
 
   def compose[L, R](l: L, r: R)(implicit composition: Composition[L, R]): composition.Composed = composition.compose(l, r)
-  def unapply[L, R, C](c: C)(implicit composition: Composition.Aux[L, R, C]): (L, R)           = composition.unapply(c)
+  def decompose[L, R, C](c: C)(implicit composition: Composition.Aux[L, R, C]): (L, R)         = composition.decompose(c)
 
 }
 
 abstract class Composition[L, R] {
   type Composed
   val compose: (L, R) => Composed
-  def unapply(c: Composed): (L, R)
+  def decompose(c: Composed): (L, R)
 }
 
 trait Composition_Pri0 {
@@ -21,7 +21,7 @@ trait Composition_Pri0 {
     val compose: (A, B) => Tuple2[A, B] = (l, r) =>
       Tuple2(l, r)
     
-    def unapply(c: Tuple2[A, B]): (A, B) =
+    def decompose(c: Tuple2[A, B]): (A, B) =
       c
     
   }
@@ -35,7 +35,7 @@ trait Composition_Pri5 extends Composition_Pri0{
     val compose: (Tuple1[L], R) => Tuple2[L, R] = (l, r) =>
       Tuple2(l._1, r)
     
-    def unapply(c: Tuple2[L, R]): (Tuple1[L], R) =
+    def decompose(c: Tuple2[L, R]): (Tuple1[L], R) =
       Tuple2(Tuple1(c._1), c._2)
     
   }
@@ -46,7 +46,7 @@ trait Composition_Pri5 extends Composition_Pri0{
     val compose: (L, Tuple1[R]) => Tuple2[L, R] = (l, r) =>
       Tuple2(l, r._1)
     
-    def unapply(c: Tuple2[L, R]): (L, Tuple1[R]) =
+    def decompose(c: Tuple2[L, R]): (L, Tuple1[R]) =
       Tuple2(c._1, Tuple1(c._2))
     
   }
@@ -61,7 +61,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2), R) => (T1, T2, R) = (l, r) =>
       (l._1, l._2, r)
     
-    def unapply(c: (T1, T2, R)): ((T1, T2), R) =
+    def decompose(c: (T1, T2, R)): ((T1, T2), R) =
       ((c._1, c._2), c._3)
     
   }
@@ -72,7 +72,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2)) => (L, T1, T2) = (l, r) =>
       (l, r._1, r._2)
     
-    def unapply(c: (L, T1, T2)): (L, (T1, T2)) =
+    def decompose(c: (L, T1, T2)): (L, (T1, T2)) =
       (c._1, (c._2, c._3))
     
   }
@@ -83,7 +83,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3), R) => (T1, T2, T3, R) = (l, r) =>
       (l._1, l._2, l._3, r)
     
-    def unapply(c: (T1, T2, T3, R)): ((T1, T2, T3), R) =
+    def decompose(c: (T1, T2, T3, R)): ((T1, T2, T3), R) =
       ((c._1, c._2, c._3), c._4)
     
   }
@@ -94,7 +94,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3)) => (L, T1, T2, T3) = (l, r) =>
       (l, r._1, r._2, r._3)
     
-    def unapply(c: (L, T1, T2, T3)): (L, (T1, T2, T3)) =
+    def decompose(c: (L, T1, T2, T3)): (L, (T1, T2, T3)) =
       (c._1, (c._2, c._3, c._4))
     
   }
@@ -105,7 +105,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4), R) => (T1, T2, T3, T4, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, r)
     
-    def unapply(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), R) =
+    def decompose(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), R) =
       ((c._1, c._2, c._3, c._4), c._5)
     
   }
@@ -116,7 +116,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4)) => (L, T1, T2, T3, T4) = (l, r) =>
       (l, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L, T1, T2, T3, T4)): (L, (T1, T2, T3, T4)) =
+    def decompose(c: (L, T1, T2, T3, T4)): (L, (T1, T2, T3, T4)) =
       (c._1, (c._2, c._3, c._4, c._5))
     
   }
@@ -127,7 +127,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5), R) => (T1, T2, T3, T4, T5, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), R) =
       ((c._1, c._2, c._3, c._4, c._5), c._6)
     
   }
@@ -138,7 +138,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5)) => (L, T1, T2, T3, T4, T5) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5)): (L, (T1, T2, T3, T4, T5)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5)): (L, (T1, T2, T3, T4, T5)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6))
     
   }
@@ -149,7 +149,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6), R) => (T1, T2, T3, T4, T5, T6, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), c._7)
     
   }
@@ -160,7 +160,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6)) => (L, T1, T2, T3, T4, T5, T6) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6)): (L, (T1, T2, T3, T4, T5, T6)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6)): (L, (T1, T2, T3, T4, T5, T6)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7))
     
   }
@@ -171,7 +171,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7), R) => (T1, T2, T3, T4, T5, T6, T7, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), c._8)
     
   }
@@ -182,7 +182,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7)) => (L, T1, T2, T3, T4, T5, T6, T7) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7)): (L, (T1, T2, T3, T4, T5, T6, T7)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7)): (L, (T1, T2, T3, T4, T5, T6, T7)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8))
     
   }
@@ -193,7 +193,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8), R) => (T1, T2, T3, T4, T5, T6, T7, T8, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), c._9)
     
   }
@@ -204,7 +204,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8)) => (L, T1, T2, T3, T4, T5, T6, T7, T8) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8)): (L, (T1, T2, T3, T4, T5, T6, T7, T8)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8)): (L, (T1, T2, T3, T4, T5, T6, T7, T8)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9))
     
   }
@@ -215,7 +215,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), c._10)
     
   }
@@ -226,7 +226,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10))
     
   }
@@ -237,7 +237,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), c._11)
     
   }
@@ -248,7 +248,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11))
     
   }
@@ -259,7 +259,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), c._12)
     
   }
@@ -270,7 +270,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12))
     
   }
@@ -281,7 +281,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12), c._13)
     
   }
@@ -292,7 +292,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13))
     
   }
@@ -303,7 +303,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13), c._14)
     
   }
@@ -314,7 +314,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14))
     
   }
@@ -325,7 +325,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14), c._15)
     
   }
@@ -336,7 +336,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15))
     
   }
@@ -347,7 +347,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15), c._16)
     
   }
@@ -358,7 +358,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -369,7 +369,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16), c._17)
     
   }
@@ -380,7 +380,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -391,7 +391,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17), c._18)
     
   }
@@ -402,7 +402,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -413,7 +413,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18), c._19)
     
   }
@@ -424,7 +424,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -435,7 +435,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19), c._20)
     
   }
@@ -446,7 +446,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -457,7 +457,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, l._20, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20), c._21)
     
   }
@@ -468,7 +468,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19, r._20)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -479,7 +479,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, l._20, l._21, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21), c._22)
     
   }
@@ -490,7 +490,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19, r._20, r._21)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)) =
       (c._1, (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -505,7 +505,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], Tuple1[R]) => Tuple2[L, R] = (l, r) =>
       (l._1, r._1)
     
-    def unapply(c: Tuple2[L, R]): (Tuple1[L], Tuple1[R]) =
+    def decompose(c: Tuple2[L, R]): (Tuple1[L], Tuple1[R]) =
       (Tuple1(c._1), Tuple1(c._2))
     
   }
@@ -517,7 +517,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2), Tuple1[R]) => (T1, T2, R) = (l, r) =>
       (l._1, l._2, r._1)
     
-    def unapply(c: (T1, T2, R)): ((T1, T2), Tuple1[R]) =
+    def decompose(c: (T1, T2, R)): ((T1, T2), Tuple1[R]) =
       ((c._1, c._2), Tuple1(c._3))
     
   }
@@ -528,7 +528,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2)) => (L, T1, T2) = (l, r) =>
       (l._1, r._1, r._2)
     
-    def unapply(c: (L, T1, T2)): (Tuple1[L], (T1, T2)) =
+    def decompose(c: (L, T1, T2)): (Tuple1[L], (T1, T2)) =
       (Tuple1(c._1), (c._2, c._3))
     
   }
@@ -539,7 +539,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3), Tuple1[R]) => (T1, T2, T3, R) = (l, r) =>
       (l._1, l._2, l._3, r._1)
     
-    def unapply(c: (T1, T2, T3, R)): ((T1, T2, T3), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, R)): ((T1, T2, T3), Tuple1[R]) =
       ((c._1, c._2, c._3), Tuple1(c._4))
     
   }
@@ -550,7 +550,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3)) => (L, T1, T2, T3) = (l, r) =>
       (l._1, r._1, r._2, r._3)
     
-    def unapply(c: (L, T1, T2, T3)): (Tuple1[L], (T1, T2, T3)) =
+    def decompose(c: (L, T1, T2, T3)): (Tuple1[L], (T1, T2, T3)) =
       (Tuple1(c._1), (c._2, c._3, c._4))
     
   }
@@ -561,7 +561,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4), Tuple1[R]) => (T1, T2, T3, T4, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4), Tuple1(c._5))
     
   }
@@ -572,7 +572,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4)) => (L, T1, T2, T3, T4) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L, T1, T2, T3, T4)): (Tuple1[L], (T1, T2, T3, T4)) =
+    def decompose(c: (L, T1, T2, T3, T4)): (Tuple1[L], (T1, T2, T3, T4)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5))
     
   }
@@ -583,7 +583,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5), Tuple1[R]) => (T1, T2, T3, T4, T5, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5), Tuple1(c._6))
     
   }
@@ -594,7 +594,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5)) => (L, T1, T2, T3, T4, T5) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5)): (Tuple1[L], (T1, T2, T3, T4, T5)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5)): (Tuple1[L], (T1, T2, T3, T4, T5)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6))
     
   }
@@ -605,7 +605,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), Tuple1(c._7))
     
   }
@@ -616,7 +616,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6)) => (L, T1, T2, T3, T4, T5, T6) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6)): (Tuple1[L], (T1, T2, T3, T4, T5, T6)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6)): (Tuple1[L], (T1, T2, T3, T4, T5, T6)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7))
     
   }
@@ -627,7 +627,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), Tuple1(c._8))
     
   }
@@ -638,7 +638,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7)) => (L, T1, T2, T3, T4, T5, T6, T7) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8))
     
   }
@@ -649,7 +649,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), Tuple1(c._9))
     
   }
@@ -660,7 +660,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8)) => (L, T1, T2, T3, T4, T5, T6, T7, T8) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9))
     
   }
@@ -671,7 +671,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), Tuple1(c._10))
     
   }
@@ -682,7 +682,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10))
     
   }
@@ -693,7 +693,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), Tuple1(c._11))
     
   }
@@ -704,7 +704,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11))
     
   }
@@ -715,7 +715,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), Tuple1(c._12))
     
   }
@@ -726,7 +726,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12))
     
   }
@@ -737,7 +737,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12), Tuple1(c._13))
     
   }
@@ -748,7 +748,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13))
     
   }
@@ -759,7 +759,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13), Tuple1(c._14))
     
   }
@@ -770,7 +770,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14))
     
   }
@@ -781,7 +781,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14), Tuple1(c._15))
     
   }
@@ -792,7 +792,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15))
     
   }
@@ -803,7 +803,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15), Tuple1(c._16))
     
   }
@@ -814,7 +814,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -825,7 +825,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16), Tuple1(c._17))
     
   }
@@ -836,7 +836,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -847,7 +847,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17), Tuple1(c._18))
     
   }
@@ -858,7 +858,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -869,7 +869,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18), Tuple1(c._19))
     
   }
@@ -880,7 +880,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -891,7 +891,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19), Tuple1(c._20))
     
   }
@@ -902,7 +902,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -913,7 +913,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, l._20, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20), Tuple1(c._21))
     
   }
@@ -924,7 +924,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19, r._20)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -935,7 +935,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, l._20, l._21, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21), Tuple1(c._22))
     
   }
@@ -946,7 +946,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19, r._20, r._21)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -957,7 +957,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2)) => (L1, L2, R1, R2) = (l, r) =>
       (l._1, l._2, r._1, r._2)
     
-    def unapply(c: (L1, L2, R1, R2)): ((L1, L2), (R1, R2)) =
+    def decompose(c: (L1, L2, R1, R2)): ((L1, L2), (R1, R2)) =
       ((c._1, c._2), (c._3, c._4))
     
   }
@@ -968,7 +968,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3)) => (L1, L2, R1, R2, R3) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, R1, R2, R3)): ((L1, L2), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, R1, R2, R3)): ((L1, L2), (R1, R2, R3)) =
       ((c._1, c._2), (c._3, c._4, c._5))
     
   }
@@ -979,7 +979,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4)) => (L1, L2, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4)): ((L1, L2), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4)): ((L1, L2), (R1, R2, R3, R4)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6))
     
   }
@@ -990,7 +990,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5)) => (L1, L2, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5)): ((L1, L2), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5)): ((L1, L2), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7))
     
   }
@@ -1001,7 +1001,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6)) => (L1, L2, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6)): ((L1, L2), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6)): ((L1, L2), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8))
     
   }
@@ -1012,7 +1012,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9))
     
   }
@@ -1023,7 +1023,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10))
     
   }
@@ -1034,7 +1034,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11))
     
   }
@@ -1045,7 +1045,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12))
     
   }
@@ -1056,7 +1056,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13))
     
   }
@@ -1067,7 +1067,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14))
     
   }
@@ -1078,7 +1078,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15))
     
   }
@@ -1089,7 +1089,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -1100,7 +1100,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -1111,7 +1111,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -1122,7 +1122,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -1133,7 +1133,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -1144,7 +1144,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -1155,7 +1155,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19, r._20)
     
-    def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20)) =
+    def decompose(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20)) =
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -1166,7 +1166,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2)) => (L1, L2, L3, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, R1, R2)): ((L1, L2, L3), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, R1, R2)): ((L1, L2, L3), (R1, R2)) =
       ((c._1, c._2, c._3), (c._4, c._5))
     
   }
@@ -1177,7 +1177,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3)) => (L1, L2, L3, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3)): ((L1, L2, L3), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3)): ((L1, L2, L3), (R1, R2, R3)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6))
     
   }
@@ -1188,7 +1188,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4)) => (L1, L2, L3, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4)): ((L1, L2, L3), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4)): ((L1, L2, L3), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7))
     
   }
@@ -1199,7 +1199,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5)) => (L1, L2, L3, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5)): ((L1, L2, L3), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5)): ((L1, L2, L3), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8))
     
   }
@@ -1210,7 +1210,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9))
     
   }
@@ -1221,7 +1221,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10))
     
   }
@@ -1232,7 +1232,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11))
     
   }
@@ -1243,7 +1243,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12))
     
   }
@@ -1254,7 +1254,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13))
     
   }
@@ -1265,7 +1265,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14))
     
   }
@@ -1276,7 +1276,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15))
     
   }
@@ -1287,7 +1287,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -1298,7 +1298,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -1309,7 +1309,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -1320,7 +1320,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -1331,7 +1331,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -1342,7 +1342,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -1353,7 +1353,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19)
     
-    def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)) =
+    def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -1364,7 +1364,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2)) => (L1, L2, L3, L4, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2)): ((L1, L2, L3, L4), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2)): ((L1, L2, L3, L4), (R1, R2)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6))
     
   }
@@ -1375,7 +1375,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3)) => (L1, L2, L3, L4, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3)): ((L1, L2, L3, L4), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3)): ((L1, L2, L3, L4), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7))
     
   }
@@ -1386,7 +1386,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4)) => (L1, L2, L3, L4, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4)): ((L1, L2, L3, L4), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4)): ((L1, L2, L3, L4), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8))
     
   }
@@ -1397,7 +1397,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9))
     
   }
@@ -1408,7 +1408,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10))
     
   }
@@ -1419,7 +1419,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11))
     
   }
@@ -1430,7 +1430,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12))
     
   }
@@ -1441,7 +1441,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13))
     
   }
@@ -1452,7 +1452,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14))
     
   }
@@ -1463,7 +1463,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15))
     
   }
@@ -1474,7 +1474,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -1485,7 +1485,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -1496,7 +1496,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -1507,7 +1507,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -1518,7 +1518,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -1529,7 +1529,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -1540,7 +1540,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18)
     
-    def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) =
+    def decompose(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) =
       ((c._1, c._2, c._3, c._4), (c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -1551,7 +1551,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2)) => (L1, L2, L3, L4, L5, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2)): ((L1, L2, L3, L4, L5), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2)): ((L1, L2, L3, L4, L5), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7))
     
   }
@@ -1562,7 +1562,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3)) => (L1, L2, L3, L4, L5, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3)): ((L1, L2, L3, L4, L5), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3)): ((L1, L2, L3, L4, L5), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8))
     
   }
@@ -1573,7 +1573,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9))
     
   }
@@ -1584,7 +1584,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10))
     
   }
@@ -1595,7 +1595,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11))
     
   }
@@ -1606,7 +1606,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11, c._12))
     
   }
@@ -1617,7 +1617,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13))
     
   }
@@ -1628,7 +1628,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14))
     
   }
@@ -1639,7 +1639,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15))
     
   }
@@ -1650,7 +1650,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -1661,7 +1661,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -1672,7 +1672,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -1683,7 +1683,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -1694,7 +1694,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -1705,7 +1705,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -1716,7 +1716,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
-    def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
+    def decompose(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
       ((c._1, c._2, c._3, c._4, c._5), (c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -1727,7 +1727,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2)) => (L1, L2, L3, L4, L5, L6, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2)): ((L1, L2, L3, L4, L5, L6), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2)): ((L1, L2, L3, L4, L5, L6), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8))
     
   }
@@ -1738,7 +1738,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9))
     
   }
@@ -1749,7 +1749,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10))
     
   }
@@ -1760,7 +1760,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11))
     
   }
@@ -1771,7 +1771,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11, c._12))
     
   }
@@ -1782,7 +1782,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11, c._12, c._13))
     
   }
@@ -1793,7 +1793,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14))
     
   }
@@ -1804,7 +1804,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15))
     
   }
@@ -1815,7 +1815,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -1826,7 +1826,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -1837,7 +1837,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -1848,7 +1848,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -1859,7 +1859,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -1870,7 +1870,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -1881,7 +1881,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), (c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -1892,7 +1892,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9))
     
   }
@@ -1903,7 +1903,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10))
     
   }
@@ -1914,7 +1914,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11))
     
   }
@@ -1925,7 +1925,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11, c._12))
     
   }
@@ -1936,7 +1936,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11, c._12, c._13))
     
   }
@@ -1947,7 +1947,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11, c._12, c._13, c._14))
     
   }
@@ -1958,7 +1958,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15))
     
   }
@@ -1969,7 +1969,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -1980,7 +1980,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -1991,7 +1991,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -2002,7 +2002,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -2013,7 +2013,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -2024,7 +2024,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -2035,7 +2035,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), (c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -2046,7 +2046,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10))
     
   }
@@ -2057,7 +2057,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11))
     
   }
@@ -2068,7 +2068,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11, c._12))
     
   }
@@ -2079,7 +2079,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11, c._12, c._13))
     
   }
@@ -2090,7 +2090,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11, c._12, c._13, c._14))
     
   }
@@ -2101,7 +2101,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11, c._12, c._13, c._14, c._15))
     
   }
@@ -2112,7 +2112,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -2123,7 +2123,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -2134,7 +2134,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -2145,7 +2145,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -2156,7 +2156,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -2167,7 +2167,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -2178,7 +2178,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), (c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -2189,7 +2189,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11))
     
   }
@@ -2200,7 +2200,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11, c._12))
     
   }
@@ -2211,7 +2211,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11, c._12, c._13))
     
   }
@@ -2222,7 +2222,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11, c._12, c._13, c._14))
     
   }
@@ -2233,7 +2233,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11, c._12, c._13, c._14, c._15))
     
   }
@@ -2244,7 +2244,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11, c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -2255,7 +2255,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -2266,7 +2266,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -2277,7 +2277,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -2288,7 +2288,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -2299,7 +2299,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -2310,7 +2310,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), (c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -2321,7 +2321,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), (c._11, c._12))
     
   }
@@ -2332,7 +2332,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), (c._11, c._12, c._13))
     
   }
@@ -2343,7 +2343,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), (c._11, c._12, c._13, c._14))
     
   }
@@ -2354,7 +2354,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), (c._11, c._12, c._13, c._14, c._15))
     
   }
@@ -2365,7 +2365,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), (c._11, c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -2376,7 +2376,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), (c._11, c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -2387,7 +2387,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), (c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -2398,7 +2398,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), (c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -2409,7 +2409,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), (c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -2420,7 +2420,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), (c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -2431,7 +2431,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10), (c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -2442,7 +2442,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), (c._12, c._13))
     
   }
@@ -2453,7 +2453,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), (c._12, c._13, c._14))
     
   }
@@ -2464,7 +2464,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), (c._12, c._13, c._14, c._15))
     
   }
@@ -2475,7 +2475,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), (c._12, c._13, c._14, c._15, c._16))
     
   }
@@ -2486,7 +2486,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), (c._12, c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -2497,7 +2497,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), (c._12, c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -2508,7 +2508,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), (c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -2519,7 +2519,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), (c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -2530,7 +2530,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), (c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -2541,7 +2541,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11), (c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -2552,7 +2552,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12), (c._13, c._14))
     
   }
@@ -2563,7 +2563,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12), (c._13, c._14, c._15))
     
   }
@@ -2574,7 +2574,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12), (c._13, c._14, c._15, c._16))
     
   }
@@ -2585,7 +2585,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12), (c._13, c._14, c._15, c._16, c._17))
     
   }
@@ -2596,7 +2596,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12), (c._13, c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -2607,7 +2607,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12), (c._13, c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -2618,7 +2618,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12), (c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -2629,7 +2629,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12), (c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -2640,7 +2640,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12), (c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -2651,7 +2651,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13), (c._14, c._15))
     
   }
@@ -2662,7 +2662,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13), (c._14, c._15, c._16))
     
   }
@@ -2673,7 +2673,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13), (c._14, c._15, c._16, c._17))
     
   }
@@ -2684,7 +2684,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13), (c._14, c._15, c._16, c._17, c._18))
     
   }
@@ -2695,7 +2695,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13), (c._14, c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -2706,7 +2706,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13), (c._14, c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -2717,7 +2717,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13), (c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -2728,7 +2728,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13), (c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -2739,7 +2739,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14), (c._15, c._16))
     
   }
@@ -2750,7 +2750,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14), (c._15, c._16, c._17))
     
   }
@@ -2761,7 +2761,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14), (c._15, c._16, c._17, c._18))
     
   }
@@ -2772,7 +2772,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14), (c._15, c._16, c._17, c._18, c._19))
     
   }
@@ -2783,7 +2783,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14), (c._15, c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -2794,7 +2794,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14), (c._15, c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -2805,7 +2805,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6, R7, R8)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6, R7, R8)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14), (c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -2816,7 +2816,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15), (c._16, c._17))
     
   }
@@ -2827,7 +2827,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15), (c._16, c._17, c._18))
     
   }
@@ -2838,7 +2838,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15), (c._16, c._17, c._18, c._19))
     
   }
@@ -2849,7 +2849,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15), (c._16, c._17, c._18, c._19, c._20))
     
   }
@@ -2860,7 +2860,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15), (c._16, c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -2871,7 +2871,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5, R6, R7)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5, R6, R7)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15), (c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -2882,7 +2882,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16), (c._17, c._18))
     
   }
@@ -2893,7 +2893,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16), (c._17, c._18, c._19))
     
   }
@@ -2904,7 +2904,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16), (c._17, c._18, c._19, c._20))
     
   }
@@ -2915,7 +2915,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16), (c._17, c._18, c._19, c._20, c._21))
     
   }
@@ -2926,7 +2926,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4, R5, R6)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4, R5, R6)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16), (c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -2937,7 +2937,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17), (c._18, c._19))
     
   }
@@ -2948,7 +2948,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17), (c._18, c._19, c._20))
     
   }
@@ -2959,7 +2959,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17), (c._18, c._19, c._20, c._21))
     
   }
@@ -2970,7 +2970,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3, R4, R5)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3, R4, R5)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17), (c._18, c._19, c._20, c._21, c._22))
     
   }
@@ -2981,7 +2981,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18), (c._19, c._20))
     
   }
@@ -2992,7 +2992,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18), (c._19, c._20, c._21))
     
   }
@@ -3003,7 +3003,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2, R3, R4)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2, R3, R4)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18), (c._19, c._20, c._21, c._22))
     
   }
@@ -3014,7 +3014,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19), (c._20, c._21))
     
   }
@@ -3025,7 +3025,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, r._1, r._2, r._3)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), (R1, R2, R3)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), (R1, R2, R3)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19), (c._20, c._21, c._22))
     
   }
@@ -3036,7 +3036,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, l._20, r._1, r._2)
     
-    def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20), (R1, R2)) =
+    def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20), (c._21, c._22))
     
   }
@@ -3047,7 +3047,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Unit, A) => A = (l, r) =>
       r
     
-    def unapply(c: A): (Unit, A) =
+    def decompose(c: A): (Unit, A) =
       ((), c)
     
   }
@@ -3058,7 +3058,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (A, Unit) => A = (l, r) =>
       l
     
-    def unapply(c: A): (A, Unit) =
+    def decompose(c: A): (A, Unit) =
       (c, ())
     
   }
@@ -3075,7 +3075,7 @@ object Composition extends Composition_Pri10 {
     val compose: (Unit, Unit) => Unit = (l, r) =>
       ()
     
-    def unapply(c: Unit): (Unit, Unit) =
+    def decompose(c: Unit): (Unit, Unit) =
       ((), ())
     
   }

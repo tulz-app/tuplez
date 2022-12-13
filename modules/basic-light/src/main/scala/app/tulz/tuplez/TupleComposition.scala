@@ -3,14 +3,14 @@ package app.tulz.tuplez
 object TupleComposition {
 
   def compose[L, R](l: L, r: R)(implicit composition: Composition[L, R]): composition.Composed = composition.compose(l, r)
-  def unapply[L, R, C](c: C)(implicit composition: Composition.Aux[L, R, C]): (L, R)           = composition.unapply(c)
+  def decompose[L, R, C](c: C)(implicit composition: Composition.Aux[L, R, C]): (L, R)         = composition.decompose(c)
 
 }
 
 abstract class Composition[L, R] {
   type Composed
   val compose: (L, R) => Composed
-  def unapply(c: Composed): (L, R)
+  def decompose(c: Composed): (L, R)
 }
 
 trait Composition_Pri0 {
@@ -21,7 +21,7 @@ trait Composition_Pri0 {
     val compose: (A, B) => Tuple2[A, B] = (l, r) =>
       Tuple2(l, r)
     
-    def unapply(c: Tuple2[A, B]): (A, B) =
+    def decompose(c: Tuple2[A, B]): (A, B) =
       c
     
   }
@@ -35,7 +35,7 @@ trait Composition_Pri5 extends Composition_Pri0{
     val compose: (Tuple1[L], R) => Tuple2[L, R] = (l, r) =>
       Tuple2(l._1, r)
     
-    def unapply(c: Tuple2[L, R]): (Tuple1[L], R) =
+    def decompose(c: Tuple2[L, R]): (Tuple1[L], R) =
       Tuple2(Tuple1(c._1), c._2)
     
   }
@@ -46,7 +46,7 @@ trait Composition_Pri5 extends Composition_Pri0{
     val compose: (L, Tuple1[R]) => Tuple2[L, R] = (l, r) =>
       Tuple2(l, r._1)
     
-    def unapply(c: Tuple2[L, R]): (L, Tuple1[R]) =
+    def decompose(c: Tuple2[L, R]): (L, Tuple1[R]) =
       Tuple2(c._1, Tuple1(c._2))
     
   }
@@ -61,7 +61,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2), R) => (T1, T2, R) = (l, r) =>
       (l._1, l._2, r)
     
-    def unapply(c: (T1, T2, R)): ((T1, T2), R) =
+    def decompose(c: (T1, T2, R)): ((T1, T2), R) =
       ((c._1, c._2), c._3)
     
   }
@@ -72,7 +72,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3), R) => (T1, T2, T3, R) = (l, r) =>
       (l._1, l._2, l._3, r)
     
-    def unapply(c: (T1, T2, T3, R)): ((T1, T2, T3), R) =
+    def decompose(c: (T1, T2, T3, R)): ((T1, T2, T3), R) =
       ((c._1, c._2, c._3), c._4)
     
   }
@@ -83,7 +83,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4), R) => (T1, T2, T3, T4, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, r)
     
-    def unapply(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), R) =
+    def decompose(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), R) =
       ((c._1, c._2, c._3, c._4), c._5)
     
   }
@@ -94,7 +94,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5), R) => (T1, T2, T3, T4, T5, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), R) =
       ((c._1, c._2, c._3, c._4, c._5), c._6)
     
   }
@@ -105,7 +105,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6), R) => (T1, T2, T3, T4, T5, T6, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), c._7)
     
   }
@@ -116,7 +116,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7), R) => (T1, T2, T3, T4, T5, T6, T7, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), c._8)
     
   }
@@ -127,7 +127,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8), R) => (T1, T2, T3, T4, T5, T6, T7, T8, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), c._9)
     
   }
@@ -138,7 +138,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), R) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), c._10)
     
   }
@@ -153,7 +153,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], Tuple1[R]) => Tuple2[L, R] = (l, r) =>
       (l._1, r._1)
     
-    def unapply(c: Tuple2[L, R]): (Tuple1[L], Tuple1[R]) =
+    def decompose(c: Tuple2[L, R]): (Tuple1[L], Tuple1[R]) =
       (Tuple1(c._1), Tuple1(c._2))
     
   }
@@ -165,7 +165,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2), Tuple1[R]) => (T1, T2, R) = (l, r) =>
       (l._1, l._2, r._1)
     
-    def unapply(c: (T1, T2, R)): ((T1, T2), Tuple1[R]) =
+    def decompose(c: (T1, T2, R)): ((T1, T2), Tuple1[R]) =
       ((c._1, c._2), Tuple1(c._3))
     
   }
@@ -176,7 +176,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2)) => (L, T1, T2) = (l, r) =>
       (l._1, r._1, r._2)
     
-    def unapply(c: (L, T1, T2)): (Tuple1[L], (T1, T2)) =
+    def decompose(c: (L, T1, T2)): (Tuple1[L], (T1, T2)) =
       (Tuple1(c._1), (c._2, c._3))
     
   }
@@ -187,7 +187,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3), Tuple1[R]) => (T1, T2, T3, R) = (l, r) =>
       (l._1, l._2, l._3, r._1)
     
-    def unapply(c: (T1, T2, T3, R)): ((T1, T2, T3), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, R)): ((T1, T2, T3), Tuple1[R]) =
       ((c._1, c._2, c._3), Tuple1(c._4))
     
   }
@@ -198,7 +198,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3)) => (L, T1, T2, T3) = (l, r) =>
       (l._1, r._1, r._2, r._3)
     
-    def unapply(c: (L, T1, T2, T3)): (Tuple1[L], (T1, T2, T3)) =
+    def decompose(c: (L, T1, T2, T3)): (Tuple1[L], (T1, T2, T3)) =
       (Tuple1(c._1), (c._2, c._3, c._4))
     
   }
@@ -209,7 +209,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4), Tuple1[R]) => (T1, T2, T3, T4, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4), Tuple1(c._5))
     
   }
@@ -220,7 +220,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4)) => (L, T1, T2, T3, T4) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4)
     
-    def unapply(c: (L, T1, T2, T3, T4)): (Tuple1[L], (T1, T2, T3, T4)) =
+    def decompose(c: (L, T1, T2, T3, T4)): (Tuple1[L], (T1, T2, T3, T4)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5))
     
   }
@@ -231,7 +231,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5), Tuple1[R]) => (T1, T2, T3, T4, T5, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5), Tuple1(c._6))
     
   }
@@ -242,7 +242,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5)) => (L, T1, T2, T3, T4, T5) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5)): (Tuple1[L], (T1, T2, T3, T4, T5)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5)): (Tuple1[L], (T1, T2, T3, T4, T5)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6))
     
   }
@@ -253,7 +253,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6), Tuple1(c._7))
     
   }
@@ -264,7 +264,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6)) => (L, T1, T2, T3, T4, T5, T6) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6)): (Tuple1[L], (T1, T2, T3, T4, T5, T6)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6)): (Tuple1[L], (T1, T2, T3, T4, T5, T6)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7))
     
   }
@@ -275,7 +275,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7), Tuple1(c._8))
     
   }
@@ -286,7 +286,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7)) => (L, T1, T2, T3, T4, T5, T6, T7) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8))
     
   }
@@ -297,7 +297,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8), Tuple1(c._9))
     
   }
@@ -308,7 +308,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8)) => (L, T1, T2, T3, T4, T5, T6, T7, T8) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9))
     
   }
@@ -319,7 +319,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1)
     
-    def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), Tuple1[R]) =
+    def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), Tuple1[R]) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9), Tuple1(c._10))
     
   }
@@ -330,7 +330,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
-    def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9)) =
+    def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9)) =
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10))
     
   }
@@ -341,7 +341,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (Unit, A) => A = (l, r) =>
       r
     
-    def unapply(c: A): (Unit, A) =
+    def decompose(c: A): (Unit, A) =
       ((), c)
     
   }
@@ -352,7 +352,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
     val compose: (A, Unit) => A = (l, r) =>
       l
     
-    def unapply(c: A): (A, Unit) =
+    def decompose(c: A): (A, Unit) =
       (c, ())
     
   }
@@ -369,7 +369,7 @@ object Composition extends Composition_Pri10 {
     val compose: (Unit, Unit) => Unit = (l, r) =>
       ()
     
-    def unapply(c: Unit): (Unit, Unit) =
+    def decompose(c: Unit): (Unit, Unit) =
       ((), ())
     
   }
