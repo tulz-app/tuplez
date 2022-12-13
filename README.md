@@ -1,4 +1,4 @@
-![Maven Central](https://img.shields.io/maven-central/v/app.tulz/tuplez-full_sjs1_2.13.svg)
+![Maven Central](https://img.shields.io/maven-central/v/app.tulz/tuplez-full_sjs1_2.13?versionPrefix=0.3)
 
 ### tuplez
 
