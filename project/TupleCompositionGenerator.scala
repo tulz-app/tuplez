@@ -20,7 +20,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
       println()
       println(s"override type Composed = ${O}")
       println()
-      enter(s"def compose(l: $L, r: $R): $O =")("") {
+      enter(s"val compose: ($L, $R) => $O = (l, r) =>")("") {
         println(compose)
       }
       enter(s"def unapply(c: $O): ($L, $R) =")("") {
@@ -41,7 +41,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, generateConcats: B
     println()
     enter("""abstract class Composition[L, R] {""")("}") {
       println("""type Composed""")
-      println("""def compose(a: L, b: R): Composed""")
+      println("""val compose: (L, R) => Composed""")
       println("""def unapply(c: Composed): (L, R)""")
     }
     println()

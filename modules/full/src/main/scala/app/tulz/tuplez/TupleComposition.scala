@@ -9,7 +9,7 @@ object TupleComposition {
 
 abstract class Composition[L, R] {
   type Composed
-  def compose(a: L, b: R): Composed
+  val compose: (L, R) => Composed
   def unapply(c: Composed): (L, R)
 }
 
@@ -18,7 +18,7 @@ trait Composition_Pri0 {
 
     override type Composed = Tuple2[A, B]
 
-    def compose(l: A, r: B): Tuple2[A, B] =
+    val compose: (A, B) => Tuple2[A, B] = (l, r) =>
       Tuple2(l, r)
     
     def unapply(c: Tuple2[A, B]): (A, B) =
@@ -32,7 +32,7 @@ trait Composition_Pri5 extends Composition_Pri0{
 
     override type Composed = Tuple2[L, R]
 
-    def compose(l: Tuple1[L], r: R): Tuple2[L, R] =
+    val compose: (Tuple1[L], R) => Tuple2[L, R] = (l, r) =>
       Tuple2(l._1, r)
     
     def unapply(c: Tuple2[L, R]): (Tuple1[L], R) =
@@ -43,7 +43,7 @@ trait Composition_Pri5 extends Composition_Pri0{
 
     override type Composed = Tuple2[L, R]
 
-    def compose(l: L, r: Tuple1[R]): Tuple2[L, R] =
+    val compose: (L, Tuple1[R]) => Tuple2[L, R] = (l, r) =>
       Tuple2(l, r._1)
     
     def unapply(c: Tuple2[L, R]): (L, Tuple1[R]) =
@@ -58,7 +58,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, R)
 
-    def compose(l: (T1, T2), r: R): (T1, T2, R) =
+    val compose: ((T1, T2), R) => (T1, T2, R) = (l, r) =>
       (l._1, l._2, r)
     
     def unapply(c: (T1, T2, R)): ((T1, T2), R) =
@@ -69,7 +69,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2)
 
-    def compose(l: L, r: (T1, T2)): (L, T1, T2) =
+    val compose: (L, (T1, T2)) => (L, T1, T2) = (l, r) =>
       (l, r._1, r._2)
     
     def unapply(c: (L, T1, T2)): (L, (T1, T2)) =
@@ -80,7 +80,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, R)
 
-    def compose(l: (T1, T2, T3), r: R): (T1, T2, T3, R) =
+    val compose: ((T1, T2, T3), R) => (T1, T2, T3, R) = (l, r) =>
       (l._1, l._2, l._3, r)
     
     def unapply(c: (T1, T2, T3, R)): ((T1, T2, T3), R) =
@@ -91,7 +91,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3)
 
-    def compose(l: L, r: (T1, T2, T3)): (L, T1, T2, T3) =
+    val compose: (L, (T1, T2, T3)) => (L, T1, T2, T3) = (l, r) =>
       (l, r._1, r._2, r._3)
     
     def unapply(c: (L, T1, T2, T3)): (L, (T1, T2, T3)) =
@@ -102,7 +102,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, R)
 
-    def compose(l: (T1, T2, T3, T4), r: R): (T1, T2, T3, T4, R) =
+    val compose: ((T1, T2, T3, T4), R) => (T1, T2, T3, T4, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, r)
     
     def unapply(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), R) =
@@ -113,7 +113,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4)
 
-    def compose(l: L, r: (T1, T2, T3, T4)): (L, T1, T2, T3, T4) =
+    val compose: (L, (T1, T2, T3, T4)) => (L, T1, T2, T3, T4) = (l, r) =>
       (l, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L, T1, T2, T3, T4)): (L, (T1, T2, T3, T4)) =
@@ -124,7 +124,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, R)
 
-    def compose(l: (T1, T2, T3, T4, T5), r: R): (T1, T2, T3, T4, T5, R) =
+    val compose: ((T1, T2, T3, T4, T5), R) => (T1, T2, T3, T4, T5, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), R) =
@@ -135,7 +135,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5)): (L, T1, T2, T3, T4, T5) =
+    val compose: (L, (T1, T2, T3, T4, T5)) => (L, T1, T2, T3, T4, T5) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L, T1, T2, T3, T4, T5)): (L, (T1, T2, T3, T4, T5)) =
@@ -146,7 +146,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6), r: R): (T1, T2, T3, T4, T5, T6, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6), R) => (T1, T2, T3, T4, T5, T6, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), R) =
@@ -157,7 +157,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6)): (L, T1, T2, T3, T4, T5, T6) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6)) => (L, T1, T2, T3, T4, T5, T6) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6)): (L, (T1, T2, T3, T4, T5, T6)) =
@@ -168,7 +168,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7), r: R): (T1, T2, T3, T4, T5, T6, T7, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7), R) => (T1, T2, T3, T4, T5, T6, T7, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), R) =
@@ -179,7 +179,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7)): (L, T1, T2, T3, T4, T5, T6, T7) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7)) => (L, T1, T2, T3, T4, T5, T6, T7) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7)): (L, (T1, T2, T3, T4, T5, T6, T7)) =
@@ -190,7 +190,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8), R) => (T1, T2, T3, T4, T5, T6, T7, T8, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), R) =
@@ -201,7 +201,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8)): (L, T1, T2, T3, T4, T5, T6, T7, T8) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8)) => (L, T1, T2, T3, T4, T5, T6, T7, T8) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8)): (L, (T1, T2, T3, T4, T5, T6, T7, T8)) =
@@ -212,7 +212,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), R) =
@@ -223,7 +223,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9)) =
@@ -234,7 +234,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), R) =
@@ -245,7 +245,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)) =
@@ -256,7 +256,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), R) =
@@ -267,7 +267,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)) =
@@ -278,7 +278,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), R) =
@@ -289,7 +289,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)) =
@@ -300,7 +300,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), R) =
@@ -311,7 +311,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)) =
@@ -322,7 +322,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), R) =
@@ -333,7 +333,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)) =
@@ -344,7 +344,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), R) =
@@ -355,7 +355,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)) =
@@ -366,7 +366,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), R) =
@@ -377,7 +377,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)) =
@@ -388,7 +388,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), R) =
@@ -399,7 +399,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)) =
@@ -410,7 +410,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), R) =
@@ -421,7 +421,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)) =
@@ -432,7 +432,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), R) =
@@ -443,7 +443,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)) =
@@ -454,7 +454,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, l._20, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), R) =
@@ -465,7 +465,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19, r._20)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)) =
@@ -476,7 +476,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, l._20, l._21, r)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), R) =
@@ -487,7 +487,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)
 
-    def compose(l: L, r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21) =
+    val compose: (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21) = (l, r) =>
       (l, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19, r._20, r._21)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)): (L, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)) =
@@ -502,7 +502,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = Tuple2[L, R]
 
-    def compose(l: Tuple1[L], r: Tuple1[R]): Tuple2[L, R] =
+    val compose: (Tuple1[L], Tuple1[R]) => Tuple2[L, R] = (l, r) =>
       (l._1, r._1)
     
     def unapply(c: Tuple2[L, R]): (Tuple1[L], Tuple1[R]) =
@@ -514,7 +514,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, R)
 
-    def compose(l: (T1, T2), r: Tuple1[R]): (T1, T2, R) =
+    val compose: ((T1, T2), Tuple1[R]) => (T1, T2, R) = (l, r) =>
       (l._1, l._2, r._1)
     
     def unapply(c: (T1, T2, R)): ((T1, T2), Tuple1[R]) =
@@ -525,7 +525,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2)
 
-    def compose(l: Tuple1[L], r: (T1, T2)): (L, T1, T2) =
+    val compose: (Tuple1[L], (T1, T2)) => (L, T1, T2) = (l, r) =>
       (l._1, r._1, r._2)
     
     def unapply(c: (L, T1, T2)): (Tuple1[L], (T1, T2)) =
@@ -536,7 +536,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, R)
 
-    def compose(l: (T1, T2, T3), r: Tuple1[R]): (T1, T2, T3, R) =
+    val compose: ((T1, T2, T3), Tuple1[R]) => (T1, T2, T3, R) = (l, r) =>
       (l._1, l._2, l._3, r._1)
     
     def unapply(c: (T1, T2, T3, R)): ((T1, T2, T3), Tuple1[R]) =
@@ -547,7 +547,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3)): (L, T1, T2, T3) =
+    val compose: (Tuple1[L], (T1, T2, T3)) => (L, T1, T2, T3) = (l, r) =>
       (l._1, r._1, r._2, r._3)
     
     def unapply(c: (L, T1, T2, T3)): (Tuple1[L], (T1, T2, T3)) =
@@ -558,7 +558,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, R)
 
-    def compose(l: (T1, T2, T3, T4), r: Tuple1[R]): (T1, T2, T3, T4, R) =
+    val compose: ((T1, T2, T3, T4), Tuple1[R]) => (T1, T2, T3, T4, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1)
     
     def unapply(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), Tuple1[R]) =
@@ -569,7 +569,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4)): (L, T1, T2, T3, T4) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4)) => (L, T1, T2, T3, T4) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L, T1, T2, T3, T4)): (Tuple1[L], (T1, T2, T3, T4)) =
@@ -580,7 +580,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, R)
 
-    def compose(l: (T1, T2, T3, T4, T5), r: Tuple1[R]): (T1, T2, T3, T4, T5, R) =
+    val compose: ((T1, T2, T3, T4, T5), Tuple1[R]) => (T1, T2, T3, T4, T5, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), Tuple1[R]) =
@@ -591,7 +591,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5)): (L, T1, T2, T3, T4, T5) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5)) => (L, T1, T2, T3, T4, T5) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L, T1, T2, T3, T4, T5)): (Tuple1[L], (T1, T2, T3, T4, T5)) =
@@ -602,7 +602,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), Tuple1[R]) =
@@ -613,7 +613,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6)): (L, T1, T2, T3, T4, T5, T6) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6)) => (L, T1, T2, T3, T4, T5, T6) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6)): (Tuple1[L], (T1, T2, T3, T4, T5, T6)) =
@@ -624,7 +624,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), Tuple1[R]) =
@@ -635,7 +635,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7)): (L, T1, T2, T3, T4, T5, T6, T7) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7)) => (L, T1, T2, T3, T4, T5, T6, T7) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7)) =
@@ -646,7 +646,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), Tuple1[R]) =
@@ -657,7 +657,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8)): (L, T1, T2, T3, T4, T5, T6, T7, T8) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8)) => (L, T1, T2, T3, T4, T5, T6, T7, T8) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8)) =
@@ -668,7 +668,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), Tuple1[R]) =
@@ -679,7 +679,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9)) =
@@ -690,7 +690,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), Tuple1[R]) =
@@ -701,7 +701,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)) =
@@ -712,7 +712,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), Tuple1[R]) =
@@ -723,7 +723,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)) =
@@ -734,7 +734,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), Tuple1[R]) =
@@ -745,7 +745,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)) =
@@ -756,7 +756,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), Tuple1[R]) =
@@ -767,7 +767,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)) =
@@ -778,7 +778,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), Tuple1[R]) =
@@ -789,7 +789,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)) =
@@ -800,7 +800,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), Tuple1[R]) =
@@ -811,7 +811,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)) =
@@ -822,7 +822,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), Tuple1[R]) =
@@ -833,7 +833,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)) =
@@ -844,7 +844,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17), Tuple1[R]) =
@@ -855,7 +855,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)) =
@@ -866,7 +866,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18), Tuple1[R]) =
@@ -877,7 +877,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)) =
@@ -888,7 +888,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19), Tuple1[R]) =
@@ -899,7 +899,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19)) =
@@ -910,7 +910,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, l._20, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20), Tuple1[R]) =
@@ -921,7 +921,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19, r._20)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20)) =
@@ -932,7 +932,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R)
 
-    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R) =
+    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, l._20, l._21, r._1)
     
     def unapply(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), Tuple1[R]) =
@@ -943,7 +943,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)
 
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21) =
+    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21) = (l, r) =>
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19, r._20, r._21)
     
     def unapply(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21)) =
@@ -954,7 +954,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2)
 
-    def compose(l: (L1, L2), r: (R1, R2)): (L1, L2, R1, R2) =
+    val compose: ((L1, L2), (R1, R2)) => (L1, L2, R1, R2) = (l, r) =>
       (l._1, l._2, r._1, r._2)
     
     def unapply(c: (L1, L2, R1, R2)): ((L1, L2), (R1, R2)) =
@@ -965,7 +965,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3)): (L1, L2, R1, R2, R3) =
+    val compose: ((L1, L2), (R1, R2, R3)) => (L1, L2, R1, R2, R3) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, R1, R2, R3)): ((L1, L2), (R1, R2, R3)) =
@@ -976,7 +976,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4)): (L1, L2, R1, R2, R3, R4) =
+    val compose: ((L1, L2), (R1, R2, R3, R4)) => (L1, L2, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4)): ((L1, L2), (R1, R2, R3, R4)) =
@@ -987,7 +987,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5)): (L1, L2, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5)) => (L1, L2, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5)): ((L1, L2), (R1, R2, R3, R4, R5)) =
@@ -998,7 +998,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6)) => (L1, L2, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6)): ((L1, L2), (R1, R2, R3, R4, R5, R6)) =
@@ -1009,7 +1009,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -1020,7 +1020,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -1031,7 +1031,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -1042,7 +1042,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
@@ -1053,7 +1053,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
@@ -1064,7 +1064,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
@@ -1075,7 +1075,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
@@ -1086,7 +1086,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
@@ -1097,7 +1097,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
@@ -1108,7 +1108,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
@@ -1119,7 +1119,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
@@ -1130,7 +1130,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) =
@@ -1141,7 +1141,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)) =
@@ -1152,7 +1152,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20)
 
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20)): (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20) =
+    val compose: ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20)) => (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20) = (l, r) =>
       (l._1, l._2, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19, r._20)
     
     def unapply(c: (L1, L2, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20)): ((L1, L2), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20)) =
@@ -1163,7 +1163,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2)): (L1, L2, L3, R1, R2) =
+    val compose: ((L1, L2, L3), (R1, R2)) => (L1, L2, L3, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, R1, R2)): ((L1, L2, L3), (R1, R2)) =
@@ -1174,7 +1174,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3)): (L1, L2, L3, R1, R2, R3) =
+    val compose: ((L1, L2, L3), (R1, R2, R3)) => (L1, L2, L3, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3)): ((L1, L2, L3), (R1, R2, R3)) =
@@ -1185,7 +1185,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4)): (L1, L2, L3, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4)) => (L1, L2, L3, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4)): ((L1, L2, L3), (R1, R2, R3, R4)) =
@@ -1196,7 +1196,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5)) => (L1, L2, L3, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5)): ((L1, L2, L3), (R1, R2, R3, R4, R5)) =
@@ -1207,7 +1207,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6)) =
@@ -1218,7 +1218,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -1229,7 +1229,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -1240,7 +1240,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -1251,7 +1251,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
@@ -1262,7 +1262,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
@@ -1273,7 +1273,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
@@ -1284,7 +1284,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
@@ -1295,7 +1295,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
@@ -1306,7 +1306,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
@@ -1317,7 +1317,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
@@ -1328,7 +1328,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
@@ -1339,7 +1339,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) =
@@ -1350,7 +1350,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)
 
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)): (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19) =
+    val compose: ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)) => (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19) = (l, r) =>
       (l._1, l._2, l._3, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18, r._19)
     
     def unapply(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)) =
@@ -1361,7 +1361,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2)): (L1, L2, L3, L4, R1, R2) =
+    val compose: ((L1, L2, L3, L4), (R1, R2)) => (L1, L2, L3, L4, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2)): ((L1, L2, L3, L4), (R1, R2)) =
@@ -1372,7 +1372,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3)): (L1, L2, L3, L4, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3)) => (L1, L2, L3, L4, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3)): ((L1, L2, L3, L4), (R1, R2, R3)) =
@@ -1383,7 +1383,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4)) => (L1, L2, L3, L4, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4)): ((L1, L2, L3, L4), (R1, R2, R3, R4)) =
@@ -1394,7 +1394,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5)) =
@@ -1405,7 +1405,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6)) =
@@ -1416,7 +1416,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -1427,7 +1427,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -1438,7 +1438,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -1449,7 +1449,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
@@ -1460,7 +1460,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
@@ -1471,7 +1471,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
@@ -1482,7 +1482,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
@@ -1493,7 +1493,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
@@ -1504,7 +1504,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
@@ -1515,7 +1515,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
@@ -1526,7 +1526,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
@@ -1537,7 +1537,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)
 
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18) =
+    val compose: ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) => (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18) = (l, r) =>
       (l._1, l._2, l._3, l._4, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17, r._18)
     
     def unapply(c: (L1, L2, L3, L4, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)): ((L1, L2, L3, L4), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18)) =
@@ -1548,7 +1548,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2)): (L1, L2, L3, L4, L5, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2)) => (L1, L2, L3, L4, L5, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2)): ((L1, L2, L3, L4, L5), (R1, R2)) =
@@ -1559,7 +1559,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3)) => (L1, L2, L3, L4, L5, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3)): ((L1, L2, L3, L4, L5), (R1, R2, R3)) =
@@ -1570,7 +1570,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4)) =
@@ -1581,7 +1581,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5)) =
@@ -1592,7 +1592,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6)) =
@@ -1603,7 +1603,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -1614,7 +1614,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -1625,7 +1625,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -1636,7 +1636,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
@@ -1647,7 +1647,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
@@ -1658,7 +1658,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
@@ -1669,7 +1669,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
@@ -1680,7 +1680,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
@@ -1691,7 +1691,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
@@ -1702,7 +1702,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
@@ -1713,7 +1713,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)
 
-    def compose(l: (L1, L2, L3, L4, L5), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) =
+    val compose: ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) => (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16, r._17)
     
     def unapply(c: (L1, L2, L3, L4, L5, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)): ((L1, L2, L3, L4, L5), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17)) =
@@ -1724,7 +1724,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2)) => (L1, L2, L3, L4, L5, L6, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2)): ((L1, L2, L3, L4, L5, L6), (R1, R2)) =
@@ -1735,7 +1735,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3)) =
@@ -1746,7 +1746,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4)) =
@@ -1757,7 +1757,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5)) =
@@ -1768,7 +1768,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6)) =
@@ -1779,7 +1779,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -1790,7 +1790,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -1801,7 +1801,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -1812,7 +1812,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
@@ -1823,7 +1823,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
@@ -1834,7 +1834,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
@@ -1845,7 +1845,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
@@ -1856,7 +1856,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
@@ -1867,7 +1867,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
@@ -1878,7 +1878,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) =
+    val compose: ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) => (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15, r._16)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)): ((L1, L2, L3, L4, L5, L6), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16)) =
@@ -1889,7 +1889,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2)) =
@@ -1900,7 +1900,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3)) =
@@ -1911,7 +1911,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4)) =
@@ -1922,7 +1922,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5)) =
@@ -1933,7 +1933,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6)) =
@@ -1944,7 +1944,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -1955,7 +1955,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -1966,7 +1966,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -1977,7 +1977,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
@@ -1988,7 +1988,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
@@ -1999,7 +1999,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
@@ -2010,7 +2010,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
@@ -2021,7 +2021,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
@@ -2032,7 +2032,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) => (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14, r._15)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)): ((L1, L2, L3, L4, L5, L6, L7), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15)) =
@@ -2043,7 +2043,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2)) =
@@ -2054,7 +2054,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3)) =
@@ -2065,7 +2065,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4)) =
@@ -2076,7 +2076,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5)) =
@@ -2087,7 +2087,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6)) =
@@ -2098,7 +2098,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -2109,7 +2109,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -2120,7 +2120,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -2131,7 +2131,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
@@ -2142,7 +2142,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
@@ -2153,7 +2153,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
@@ -2164,7 +2164,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
@@ -2175,7 +2175,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) => (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13, r._14)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)): ((L1, L2, L3, L4, L5, L6, L7, L8), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14)) =
@@ -2186,7 +2186,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2)) =
@@ -2197,7 +2197,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3)) =
@@ -2208,7 +2208,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4)) =
@@ -2219,7 +2219,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5)) =
@@ -2230,7 +2230,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6)) =
@@ -2241,7 +2241,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -2252,7 +2252,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -2263,7 +2263,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -2274,7 +2274,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
@@ -2285,7 +2285,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
@@ -2296,7 +2296,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
@@ -2307,7 +2307,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12, r._13)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13)) =
@@ -2318,7 +2318,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2)) =
@@ -2329,7 +2329,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3)) =
@@ -2340,7 +2340,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4)) =
@@ -2351,7 +2351,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5)) =
@@ -2362,7 +2362,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6)) =
@@ -2373,7 +2373,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -2384,7 +2384,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -2395,7 +2395,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -2406,7 +2406,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
@@ -2417,7 +2417,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
@@ -2428,7 +2428,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11, r._12)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12)) =
@@ -2439,7 +2439,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2)) =
@@ -2450,7 +2450,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3)) =
@@ -2461,7 +2461,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4)) =
@@ -2472,7 +2472,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5)) =
@@ -2483,7 +2483,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6)) =
@@ -2494,7 +2494,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -2505,7 +2505,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -2516,7 +2516,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -2527,7 +2527,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
@@ -2538,7 +2538,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10, r._11)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11)) =
@@ -2549,7 +2549,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2)) =
@@ -2560,7 +2560,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3)) =
@@ -2571,7 +2571,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4)) =
@@ -2582,7 +2582,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5)) =
@@ -2593,7 +2593,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6)) =
@@ -2604,7 +2604,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -2615,7 +2615,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -2626,7 +2626,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -2637,7 +2637,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9, r._10)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10)) =
@@ -2648,7 +2648,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2)) =
@@ -2659,7 +2659,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3)) =
@@ -2670,7 +2670,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4)) =
@@ -2681,7 +2681,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5)) =
@@ -2692,7 +2692,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6)) =
@@ -2703,7 +2703,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -2714,7 +2714,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -2725,7 +2725,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8, R9)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), r: (R1, R2, R3, R4, R5, R6, R7, R8, R9)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8, R9) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8, R9) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, R1, R2, R3, R4, R5, R6, R7, R8, R9)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13), (R1, R2, R3, R4, R5, R6, R7, R8, R9)) =
@@ -2736,7 +2736,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2)) =
@@ -2747,7 +2747,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3)) =
@@ -2758,7 +2758,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4)) =
@@ -2769,7 +2769,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5)) =
@@ -2780,7 +2780,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6)) =
@@ -2791,7 +2791,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -2802,7 +2802,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7, R8)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), r: (R1, R2, R3, R4, R5, R6, R7, R8)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7, R8) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6, R7, R8)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7, R8) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, R1, R2, R3, R4, R5, R6, R7, R8)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14), (R1, R2, R3, R4, R5, R6, R7, R8)) =
@@ -2813,7 +2813,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2)) =
@@ -2824,7 +2824,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3)) =
@@ -2835,7 +2835,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4)) =
@@ -2846,7 +2846,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5)) =
@@ -2857,7 +2857,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5, R6)) =
@@ -2868,7 +2868,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6, R7)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), r: (R1, R2, R3, R4, R5, R6, R7)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6, R7) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5, R6, R7)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6, R7) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, R1, R2, R3, R4, R5, R6, R7)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15), (R1, R2, R3, R4, R5, R6, R7)) =
@@ -2879,7 +2879,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2)) =
@@ -2890,7 +2890,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3)) =
@@ -2901,7 +2901,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4)) =
@@ -2912,7 +2912,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4, R5)) =
@@ -2923,7 +2923,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5, R6)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), r: (R1, R2, R3, R4, R5, R6)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5, R6) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4, R5, R6)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5, R6) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, R1, R2, R3, R4, R5, R6)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16), (R1, R2, R3, R4, R5, R6)) =
@@ -2934,7 +2934,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2)) =
@@ -2945,7 +2945,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3)) =
@@ -2956,7 +2956,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3, R4)) =
@@ -2967,7 +2967,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4, R5)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), r: (R1, R2, R3, R4, R5)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4, R5) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3, R4, R5)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4, R5) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, r._1, r._2, r._3, r._4, r._5)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, R1, R2, R3, R4, R5)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17), (R1, R2, R3, R4, R5)) =
@@ -2978,7 +2978,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2)) =
@@ -2989,7 +2989,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2, R3)) =
@@ -3000,7 +3000,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3, R4)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), r: (R1, R2, R3, R4)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3, R4) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2, R3, R4)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3, R4) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, r._1, r._2, r._3, r._4)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, R1, R2, R3, R4)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18), (R1, R2, R3, R4)) =
@@ -3011,7 +3011,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), (R1, R2)) =
@@ -3022,7 +3022,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2, R3)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), r: (R1, R2, R3)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2, R3) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), (R1, R2, R3)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2, R3) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, r._1, r._2, r._3)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, R1, R2, R3)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19), (R1, R2, R3)) =
@@ -3033,7 +3033,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20, R1, R2)
 
-    def compose(l: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20), r: (R1, R2)): (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20, R1, R2) =
+    val compose: ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20), (R1, R2)) => (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20, R1, R2) = (l, r) =>
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, l._10, l._11, l._12, l._13, l._14, l._15, l._16, l._17, l._18, l._19, l._20, r._1, r._2)
     
     def unapply(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20), (R1, R2)) =
@@ -3044,7 +3044,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = A
 
-    def compose(l: Unit, r: A): A =
+    val compose: (Unit, A) => A = (l, r) =>
       r
     
     def unapply(c: A): (Unit, A) =
@@ -3055,7 +3055,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = A
 
-    def compose(l: A, r: Unit): A =
+    val compose: (A, Unit) => A = (l, r) =>
       l
     
     def unapply(c: A): (A, Unit) =
@@ -3072,7 +3072,7 @@ object Composition extends Composition_Pri10 {
 
     override type Composed = Unit
 
-    def compose(l: Unit, r: Unit): Unit =
+    val compose: (Unit, Unit) => Unit = (l, r) =>
       ()
     
     def unapply(c: Unit): (Unit, Unit) =
