@@ -1,4 +1,5 @@
 import sbt.librarymanagement.CrossVersion
+import com.typesafe.tools.mima.core._
 
 inThisBuild(
   List(
@@ -16,9 +17,13 @@ inThisBuild(
     ),
     ThisBuild / versionScheme := Some("early-semver"),
     versionPolicyIntention    := Compatibility.BinaryCompatible,
+    mimaBinaryIssueFilters ++= Seq(
+      ProblemFilters.exclude[DirectMissingMethodProblem]("app.tulz.tuplez.Composition.apply"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("app.tulz.tuplez.Composition.decompose"),
+    ),
     githubWorkflowTargetTags ++= Seq("v*"),
     githubWorkflowPublishTargetBranches := Seq(RefPredicate.StartsWith(Ref.Tag("v"))),
-    githubWorkflowBuild ++= Seq(WorkflowStep.Sbt(List("versionPolicyCheck"))),
+    githubWorkflowBuild ++= Seq(WorkflowStep.Sbt(List("versionPolicyCheck", "test"))),
     githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release"))),
     githubWorkflowEnv ~= (_ ++ Map(
       "PGP_PASSPHRASE"    -> s"$${{ secrets.PGP_PASSPHRASE }}",
@@ -34,6 +39,7 @@ lazy val `tuplez-full` =
     .crossType(CrossType.Pure)
     .in(file("modules/full"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
+    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -56,6 +62,7 @@ lazy val `tuplez-full-light` =
     .crossType(CrossType.Pure)
     .in(file("modules/full-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
+    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -78,6 +85,7 @@ lazy val `tuplez-basic` =
     .crossType(CrossType.Pure)
     .in(file("modules/basic"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
+    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -100,6 +108,7 @@ lazy val `tuplez-basic-light` =
     .crossType(CrossType.Pure)
     .in(file("modules/basic-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
+    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -122,6 +131,7 @@ lazy val `tuplez-apply` =
     .crossType(CrossType.Pure)
     .in(file("modules/apply"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
+    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -144,7 +154,9 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "junit"           % "junit"           % "4.13.2" % Test,
     ("com.github.sbt" % "junit-interface" % "0.13.3" % Test).exclude("junit", "junit-dep")
-  )
+  ),
+  scalacOptions := scalacOptions.value.filterNot(_ == "-Wdead-code"),
+//  scalacOptions := scalacOptions.value.filterNot(_ == "-Xfatal-warnings")
 )
 
 lazy val commonJsSettings = Seq(

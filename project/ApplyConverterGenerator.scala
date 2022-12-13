@@ -10,10 +10,10 @@ class ApplyConverterGenerator(sourceManaged: File)
   def doGenerate(): Unit = {
     println("""package app.tulz.tuplez""")
     println()
-    enter("""abstract class ApplyConverter[L, O] {""")
-    println("""type In""")
-    println("""def apply(f: In): L => O""")
-    leave("""}""")
+    enter("""abstract class ApplyConverter[L, O] {""")("}") {
+      println("""type In""")
+      println("""def apply(f: In): L => O""")
+    }
     println()
     println("""trait ApplyConverters[O] extends ApplyConverterInstances[O]""")
   }
