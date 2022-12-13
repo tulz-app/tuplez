@@ -1,4 +1,5 @@
 import sbt.librarymanagement.CrossVersion
+import com.typesafe.tools.mima.core._
 
 inThisBuild(
   List(
@@ -16,6 +17,10 @@ inThisBuild(
     ),
     ThisBuild / versionScheme := Some("early-semver"),
     versionPolicyIntention    := Compatibility.BinaryCompatible,
+    mimaBinaryIssueFilters ++= Seq(
+      ProblemFilters.exclude[DirectMissingMethodProblem]("app.tulz.tuplez.Composition.apply"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("app.tulz.tuplez.Composition.decompose"),
+    ),
     githubWorkflowTargetTags ++= Seq("v*"),
     githubWorkflowPublishTargetBranches := Seq(RefPredicate.StartsWith(Ref.Tag("v"))),
     githubWorkflowBuild ++= Seq(WorkflowStep.Sbt(List("versionPolicyCheck"))),
