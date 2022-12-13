@@ -6,30 +6,30 @@ Tuple composition in Scala and Scala.js.
 
 ```scala
 // tupleN + scalar, scalar + tupleN, tupleN + tupleM, up to Tuple22
-"app.tulz" %%% "tuplez-full" % "0.3.7"
+"app.tulz" %%% "tuplez-full" % "0.3.8"
 
 // or
 
 // tupleN + scalar, scalar + tupleN, tupleN + tupleM, up to Tuple10
-"app.tulz" %%% "tuplez-full-light" % "0.3.7"
+"app.tulz" %%% "tuplez-full-light" % "0.3.8"
 
 // or
 
 // tupleN + scalar, up to Tuple22
-"app.tulz" %%% "tuplez-basic" % "0.3.7"
+"app.tulz" %%% "tuplez-basic" % "0.3.8"
 
 // or
 
 // tupleN + scalar, up to Tuple10 
-"app.tulz" %%% "tuplez-basic-light" % "0.3.7" 
+"app.tulz" %%% "tuplez-basic-light" % "0.3.8" 
 ```
 
 ```scala
 // utilities to build API's that allow using a FunctionN[A, B, C, ... Out] instead of Function1[TupleN[A, B, C, ...], Out] 
-"app.tulz" %%% "tuplez-apply" % "0.3.7"
+"app.tulz" %%% "tuplez-apply" % "0.3.8"
 ```
 
-Published for Scala `2.12`, `2.13` and `3.2.0`, JVM and Scala.js 1.5.1+.
+Published for Scala `2.12`, `2.13` and `3.2.1`, JVM and Scala.js 1.5.1+.
 
 ### Source code
 
@@ -40,9 +40,10 @@ Source code is 100% generated.
 `app.tulz.tuplez.TupleComposition`
 
 ```scala
-abstract class Composition[-A, -B] {
+abstract class Composition[L, R] {
   type Composed
-  val apply: (A, B) => Composed
+  val compose: (L, R) => Composed
+  def decompose(c: Composed): (L, R)
 }
 ```
 
@@ -50,12 +51,13 @@ Implicit values are provided for composing tuples with tuples, and tuples with s
 
 Implicits are defined by the generated code.
 
-The companion object provides a single utility function to compose two tuples (or a tuple and a scalar)
+The companion object provides utility functions to compose/decompose two tuples (or a tuple and a scalar)
 
 ```scala
 object TupleComposition {
 
   def compose[L, R](l: L, r: R)(implicit composition: Composition[L, R]): composition.Composed = composition.compose(l, r)
+  def decompose[L, R, C](c: C)(implicit composition: Composition.Aux[L, R, C]): (L, R)         = composition.decompose(c)
 
 }
 
