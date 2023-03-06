@@ -9,7 +9,7 @@ object TupleComposition {
 
 abstract class Composition[L, R] {
   type Composed
-  val compose: (L, R) => Composed
+  def compose(a: L, b: R): Composed
   def decompose(c: Composed): (L, R)
 }
 
@@ -18,7 +18,7 @@ trait Composition_Pri0 {
 
     override type Composed = Tuple2[A, B]
 
-    val compose: (A, B) => Tuple2[A, B] = (l, r) =>
+    def compose(l: A, r: B): Tuple2[A, B] =
       Tuple2(l, r)
     
     def decompose(c: Tuple2[A, B]): (A, B) =
@@ -32,7 +32,7 @@ trait Composition_Pri5 extends Composition_Pri0{
 
     override type Composed = Tuple2[L, R]
 
-    val compose: (Tuple1[L], R) => Tuple2[L, R] = (l, r) =>
+    def compose(l: Tuple1[L], r: R): Tuple2[L, R] =
       Tuple2(l._1, r)
     
     def decompose(c: Tuple2[L, R]): (Tuple1[L], R) =
@@ -43,7 +43,7 @@ trait Composition_Pri5 extends Composition_Pri0{
 
     override type Composed = Tuple2[L, R]
 
-    val compose: (L, Tuple1[R]) => Tuple2[L, R] = (l, r) =>
+    def compose(l: L, r: Tuple1[R]): Tuple2[L, R] =
       Tuple2(l, r._1)
     
     def decompose(c: Tuple2[L, R]): (L, Tuple1[R]) =
@@ -58,7 +58,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, R)
 
-    val compose: ((T1, T2), R) => (T1, T2, R) = (l, r) =>
+    def compose(l: (T1, T2), r: R): (T1, T2, R) =
       (l._1, l._2, r)
     
     def decompose(c: (T1, T2, R)): ((T1, T2), R) =
@@ -69,7 +69,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, R)
 
-    val compose: ((T1, T2, T3), R) => (T1, T2, T3, R) = (l, r) =>
+    def compose(l: (T1, T2, T3), r: R): (T1, T2, T3, R) =
       (l._1, l._2, l._3, r)
     
     def decompose(c: (T1, T2, T3, R)): ((T1, T2, T3), R) =
@@ -80,7 +80,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, R)
 
-    val compose: ((T1, T2, T3, T4), R) => (T1, T2, T3, T4, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4), r: R): (T1, T2, T3, T4, R) =
       (l._1, l._2, l._3, l._4, r)
     
     def decompose(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), R) =
@@ -91,7 +91,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, R)
 
-    val compose: ((T1, T2, T3, T4, T5), R) => (T1, T2, T3, T4, T5, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4, T5), r: R): (T1, T2, T3, T4, T5, R) =
       (l._1, l._2, l._3, l._4, l._5, r)
     
     def decompose(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), R) =
@@ -102,7 +102,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, R)
 
-    val compose: ((T1, T2, T3, T4, T5, T6), R) => (T1, T2, T3, T4, T5, T6, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4, T5, T6), r: R): (T1, T2, T3, T4, T5, T6, R) =
       (l._1, l._2, l._3, l._4, l._5, l._6, r)
     
     def decompose(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), R) =
@@ -113,7 +113,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, R)
 
-    val compose: ((T1, T2, T3, T4, T5, T6, T7), R) => (T1, T2, T3, T4, T5, T6, T7, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4, T5, T6, T7), r: R): (T1, T2, T3, T4, T5, T6, T7, R) =
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r)
     
     def decompose(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), R) =
@@ -124,7 +124,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, R)
 
-    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8), R) => (T1, T2, T3, T4, T5, T6, T7, T8, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, R) =
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r)
     
     def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), R) =
@@ -135,7 +135,7 @@ trait Composition_Pri7 extends Composition_Pri5 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)
 
-    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9), R) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9), r: R): (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) =
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r)
     
     def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), R) =
@@ -150,7 +150,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = Tuple2[L, R]
 
-    val compose: (Tuple1[L], Tuple1[R]) => Tuple2[L, R] = (l, r) =>
+    def compose(l: Tuple1[L], r: Tuple1[R]): Tuple2[L, R] =
       (l._1, r._1)
     
     def decompose(c: Tuple2[L, R]): (Tuple1[L], Tuple1[R]) =
@@ -162,7 +162,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, R)
 
-    val compose: ((T1, T2), Tuple1[R]) => (T1, T2, R) = (l, r) =>
+    def compose(l: (T1, T2), r: Tuple1[R]): (T1, T2, R) =
       (l._1, l._2, r._1)
     
     def decompose(c: (T1, T2, R)): ((T1, T2), Tuple1[R]) =
@@ -173,7 +173,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2)
 
-    val compose: (Tuple1[L], (T1, T2)) => (L, T1, T2) = (l, r) =>
+    def compose(l: Tuple1[L], r: (T1, T2)): (L, T1, T2) =
       (l._1, r._1, r._2)
     
     def decompose(c: (L, T1, T2)): (Tuple1[L], (T1, T2)) =
@@ -184,7 +184,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, R)
 
-    val compose: ((T1, T2, T3), Tuple1[R]) => (T1, T2, T3, R) = (l, r) =>
+    def compose(l: (T1, T2, T3), r: Tuple1[R]): (T1, T2, T3, R) =
       (l._1, l._2, l._3, r._1)
     
     def decompose(c: (T1, T2, T3, R)): ((T1, T2, T3), Tuple1[R]) =
@@ -195,7 +195,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3)
 
-    val compose: (Tuple1[L], (T1, T2, T3)) => (L, T1, T2, T3) = (l, r) =>
+    def compose(l: Tuple1[L], r: (T1, T2, T3)): (L, T1, T2, T3) =
       (l._1, r._1, r._2, r._3)
     
     def decompose(c: (L, T1, T2, T3)): (Tuple1[L], (T1, T2, T3)) =
@@ -206,7 +206,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, R)
 
-    val compose: ((T1, T2, T3, T4), Tuple1[R]) => (T1, T2, T3, T4, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4), r: Tuple1[R]): (T1, T2, T3, T4, R) =
       (l._1, l._2, l._3, l._4, r._1)
     
     def decompose(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), Tuple1[R]) =
@@ -217,7 +217,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4)
 
-    val compose: (Tuple1[L], (T1, T2, T3, T4)) => (L, T1, T2, T3, T4) = (l, r) =>
+    def compose(l: Tuple1[L], r: (T1, T2, T3, T4)): (L, T1, T2, T3, T4) =
       (l._1, r._1, r._2, r._3, r._4)
     
     def decompose(c: (L, T1, T2, T3, T4)): (Tuple1[L], (T1, T2, T3, T4)) =
@@ -228,7 +228,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, R)
 
-    val compose: ((T1, T2, T3, T4, T5), Tuple1[R]) => (T1, T2, T3, T4, T5, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4, T5), r: Tuple1[R]): (T1, T2, T3, T4, T5, R) =
       (l._1, l._2, l._3, l._4, l._5, r._1)
     
     def decompose(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), Tuple1[R]) =
@@ -239,7 +239,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5)
 
-    val compose: (Tuple1[L], (T1, T2, T3, T4, T5)) => (L, T1, T2, T3, T4, T5) = (l, r) =>
+    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5)): (L, T1, T2, T3, T4, T5) =
       (l._1, r._1, r._2, r._3, r._4, r._5)
     
     def decompose(c: (L, T1, T2, T3, T4, T5)): (Tuple1[L], (T1, T2, T3, T4, T5)) =
@@ -250,7 +250,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, R)
 
-    val compose: ((T1, T2, T3, T4, T5, T6), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4, T5, T6), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, R) =
       (l._1, l._2, l._3, l._4, l._5, l._6, r._1)
     
     def decompose(c: (T1, T2, T3, T4, T5, T6, R)): ((T1, T2, T3, T4, T5, T6), Tuple1[R]) =
@@ -261,7 +261,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6)
 
-    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6)) => (L, T1, T2, T3, T4, T5, T6) = (l, r) =>
+    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6)): (L, T1, T2, T3, T4, T5, T6) =
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6)
     
     def decompose(c: (L, T1, T2, T3, T4, T5, T6)): (Tuple1[L], (T1, T2, T3, T4, T5, T6)) =
@@ -272,7 +272,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, R)
 
-    val compose: ((T1, T2, T3, T4, T5, T6, T7), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4, T5, T6, T7), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, R) =
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, r._1)
     
     def decompose(c: (T1, T2, T3, T4, T5, T6, T7, R)): ((T1, T2, T3, T4, T5, T6, T7), Tuple1[R]) =
@@ -283,7 +283,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7)
 
-    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7)) => (L, T1, T2, T3, T4, T5, T6, T7) = (l, r) =>
+    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7)): (L, T1, T2, T3, T4, T5, T6, T7) =
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7)
     
     def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7)) =
@@ -294,7 +294,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, R)
 
-    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, R) =
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, r._1)
     
     def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, R)): ((T1, T2, T3, T4, T5, T6, T7, T8), Tuple1[R]) =
@@ -305,7 +305,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8)
 
-    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8)) => (L, T1, T2, T3, T4, T5, T6, T7, T8) = (l, r) =>
+    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8)): (L, T1, T2, T3, T4, T5, T6, T7, T8) =
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)
     
     def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8)) =
@@ -316,7 +316,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)
 
-    val compose: ((T1, T2, T3, T4, T5, T6, T7, T8, T9), Tuple1[R]) => (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) = (l, r) =>
+    def compose(l: (T1, T2, T3, T4, T5, T6, T7, T8, T9), r: Tuple1[R]): (T1, T2, T3, T4, T5, T6, T7, T8, T9, R) =
       (l._1, l._2, l._3, l._4, l._5, l._6, l._7, l._8, l._9, r._1)
     
     def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9), Tuple1[R]) =
@@ -327,7 +327,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 
-    val compose: (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9)) => (L, T1, T2, T3, T4, T5, T6, T7, T8, T9) = (l, r) =>
+    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5, T6, T7, T8, T9)): (L, T1, T2, T3, T4, T5, T6, T7, T8, T9) =
       (l._1, r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8, r._9)
     
     def decompose(c: (L, T1, T2, T3, T4, T5, T6, T7, T8, T9)): (Tuple1[L], (T1, T2, T3, T4, T5, T6, T7, T8, T9)) =
@@ -338,7 +338,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = A
 
-    val compose: (Unit, A) => A = (l, r) =>
+    def compose(l: Unit, r: A): A =
       r
     
     def decompose(c: A): (Unit, A) =
@@ -349,7 +349,7 @@ trait Composition_Pri10 extends Composition_Pri7 {
 
     override type Composed = A
 
-    val compose: (A, Unit) => A = (l, r) =>
+    def compose(l: A, r: Unit): A =
       l
     
     def decompose(c: A): (A, Unit) =
@@ -366,7 +366,7 @@ object Composition extends Composition_Pri10 {
 
     override type Composed = Unit
 
-    val compose: (Unit, Unit) => Unit = (l, r) =>
+    def compose(l: Unit, r: Unit): Unit =
       ()
     
     def decompose(c: Unit): (Unit, Unit) =
