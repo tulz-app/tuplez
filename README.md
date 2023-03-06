@@ -1,4 +1,4 @@
-![Maven Central](https://img.shields.io/maven-central/v/app.tulz/tuplez-full_sjs1_2.13?versionPrefix=0.3)
+![Maven Central](https://img.shields.io/maven-central/v/app.tulz/tuplez-full_sjs1_2.13?versionPrefix=0.4)
 
 ### tuplez
 
@@ -6,27 +6,27 @@ Tuple composition in Scala and Scala.js.
 
 ```scala
 // tupleN + scalar, scalar + tupleN, tupleN + tupleM, up to Tuple22
-"app.tulz" %%% "tuplez-full" % "0.3.8"
+"app.tulz" %%% "tuplez-full" % "0.4.0"
 
 // or
 
 // tupleN + scalar, scalar + tupleN, tupleN + tupleM, up to Tuple10
-"app.tulz" %%% "tuplez-full-light" % "0.3.8"
+"app.tulz" %%% "tuplez-full-light" % "0.4.0"
 
 // or
 
 // tupleN + scalar, up to Tuple22
-"app.tulz" %%% "tuplez-basic" % "0.3.8"
+"app.tulz" %%% "tuplez-basic" % "0.4.0"
 
 // or
 
 // tupleN + scalar, up to Tuple10 
-"app.tulz" %%% "tuplez-basic-light" % "0.3.8" 
+"app.tulz" %%% "tuplez-basic-light" % "0.4.0" 
 ```
 
 ```scala
 // utilities to build API's that allow using a FunctionN[A, B, C, ... Out] instead of Function1[TupleN[A, B, C, ...], Out] 
-"app.tulz" %%% "tuplez-apply" % "0.3.8"
+"app.tulz" %%% "tuplez-apply" % "0.4.0"
 ```
 
 Published for Scala `2.12`, `2.13` and `3.2.1`, JVM and Scala.js 1.5.1+.
@@ -124,7 +124,7 @@ A more complete example: https://github.com/tulz-app/frontroute/blob/main/src/ma
 
 ## Author
 
-Iurii Malchenko – [@yurique](https://twitter.com/yurique) / [keybase.io/yurique](https://keybase.io/yurique)
+Iurii Malchenko – [@yurique](https://twitter.com/yurique) 
 
 
 ## License
