@@ -124,7 +124,7 @@ A more complete example: https://github.com/tulz-app/frontroute/blob/main/src/ma
 
 ## Author
 
-Iurii Malchenko – [@yurique](https://twitter.com/yurique) / [keybase.io/yurique](https://keybase.io/yurique)
+Iurii Malchenko – [@yurique](https://twitter.com/yurique) 
 
 
 ## License
