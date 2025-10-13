@@ -10,7 +10,7 @@ inThisBuild(
     scmInfo                  := Some(ScmInfo(url("https://github.com/tulz-app/tuplez"), "scm:git@github.com/tulz-app/tuplez.git")),
     (Test / publishArtifact) := false,
     scalaVersion             := ScalaVersions.v213,
-    crossScalaVersions := Seq(
+    crossScalaVersions       := Seq(
       ScalaVersions.v3,
       ScalaVersions.v213,
       ScalaVersions.v212
@@ -161,7 +161,7 @@ lazy val commonSettings = Seq(
 
 lazy val commonJsSettings = Seq(
   scalacOptions ++= {
-    val sourcesGithubUrl = s"https://raw.githubusercontent.com/tulz-app/tuplez/${git.gitHeadCommit.value.get}/"
+    val sourcesGithubUrl  = s"https://raw.githubusercontent.com/tulz-app/tuplez/${git.gitHeadCommit.value.get}/"
     val sourcesOptionName = CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, _)) => "-P:scalajs:mapSourceURI"
       case Some((3, _)) => "-scalajs-mapSourceURI"
