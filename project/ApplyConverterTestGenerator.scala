@@ -33,7 +33,7 @@ class ApplyConverterTestGenerator(sourceManaged: File)
         val values        = tupleValue(size, 0)
         val tupleToString = (1 to size).map(i => s"$i").mkString(",")
 
-        enter(s"""@Test @annotation.nowarn def `converter for Tuple${size}`(): Unit = {""")("}") {
+        enter(s"""@Test def `converter for Tuple${size}`(): Unit = {""")("}") {
           println(s"""val acceptingTupledFunc: (Tuple${size}[${tpe}] => String) => String = func => func(${values})""")
           println(s"""assertEquals("should match", "${tupleToString}", acceptingTupledFunc(toTupled${size}((${args}) => s"${argsToString}")))""")
         }

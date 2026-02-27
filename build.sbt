@@ -1,5 +1,6 @@
 import sbt.librarymanagement.CrossVersion
-import com.typesafe.tools.mima.core._
+import com.typesafe.tools.mima.core.*
+import org.typelevel.scalacoptions.{ ScalacOption, ScalacOptions }
 
 inThisBuild(
   List(
@@ -9,7 +10,7 @@ inThisBuild(
     developers               := List(Developer("yurique", "Iurii Malchenko", "i@yurique.com", url("https://github.com/yurique"))),
     scmInfo                  := Some(ScmInfo(url("https://github.com/tulz-app/tuplez"), "scm:git@github.com/tulz-app/tuplez.git")),
     (Test / publishArtifact) := false,
-    scalaVersion             := ScalaVersions.v213,
+    scalaVersion             := ScalaVersions.v3,
     crossScalaVersions := Seq(
       ScalaVersions.v3,
       ScalaVersions.v213,
@@ -34,104 +35,131 @@ inThisBuild(
   )
 )
 
+// scala3-only implementation without codegen
+lazy val `tuplez-shared` =
+  crossProject(JVMPlatform, JSPlatform)
+    .crossType(CrossType.Pure)
+    .in(file("modules/shared"))
+    .settings(commonSettings)
+    .jsSettings(commonJsSettings)
+    .settings(
+      name := "tuplez-shared",
+      description := "Scala tuple composition, shared module with Scala 3 implementation."
+    )
+
 lazy val `tuplez-full` =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("modules/full"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-full",
       Compile / sourceGenerators += Def.task {
-        Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, generateConcats = true, generatePrepends = true).generate()
-        )
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, _)) =>
+            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 22, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
+          case Some((3, _)) =>
+            Seq.empty
+          case _ => Seq.empty
+        }
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = true, testPrepends = true).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = true, testPrepends = true, scala3 = CrossVersion.partialVersion(scalaVersion.value).exists(_._1 == 3)).generate()
         )
       }.taskValue,
       description := "Scala tuple composition."
     )
+    .dependsOn(`tuplez-shared`)
 
 lazy val `tuplez-full-light` =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("modules/full-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-full-light",
       Compile / sourceGenerators += Def.task {
-        Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, generateConcats = true, generatePrepends = true).generate()
-        )
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, _)) =>
+            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 10, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
+          case Some((3, _)) =>
+            Seq.empty
+          case _ => Seq.empty
+        }
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = true, testPrepends = true).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = true, testPrepends = true, scala3 = CrossVersion.partialVersion(scalaVersion.value).exists(_._1 == 3)).generate()
         )
       }.taskValue,
       description := "Scala tuple composition."
     )
+    .dependsOn(`tuplez-shared`)
 
 lazy val `tuplez-basic` =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("modules/basic"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-basic",
       Compile / sourceGenerators += Def.task {
-        Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, generateConcats = false, generatePrepends = false).generate()
-        )
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, _)) =>
+            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 22, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
+          case Some((3, _)) =>
+            Seq.empty
+          case _ => Seq.empty
+        }
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = false, testPrepends = false).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = false, testPrepends = false, scala3 = CrossVersion.partialVersion(scalaVersion.value).exists(_._1 == 3)).generate()
         )
       }.taskValue,
       description := "Scala tuple composition."
     )
+    .dependsOn(`tuplez-shared`)
 
 lazy val `tuplez-basic-light` =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("modules/basic-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-basic-light",
       Compile / sourceGenerators += Def.task {
-        Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, generateConcats = false, generatePrepends = false).generate()
-        )
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, _)) =>
+            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 10, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
+          case Some((3, _)) =>
+            Seq.empty
+          case _ => Seq.empty
+        }
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = false, testPrepends = false).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = false, testPrepends = false, scala3 = CrossVersion.partialVersion(scalaVersion.value).exists(_._1 == 3)).generate()
         )
       }.taskValue,
       description := "Scala tuple composition."
     )
+    .dependsOn(`tuplez-shared`)
 
 lazy val `tuplez-apply` =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("modules/apply"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -156,7 +184,8 @@ lazy val commonSettings = Seq(
     ("com.github.sbt" % "junit-interface" % "0.13.3" % Test).exclude("junit", "junit-dep")
   ),
   scalacOptions := scalacOptions.value.filterNot(_ == "-Wdead-code"),
-//  scalacOptions := scalacOptions.value.filterNot(_ == "-Xfatal-warnings")
+  Test / scalacOptions += "-Wconf:msg=a type was inferred to be `Any`:s",
+  tpolecatScalacOptions += ScalacOptions.explain
 )
 
 lazy val commonJsSettings = Seq(
@@ -188,6 +217,8 @@ lazy val root = project
   )
   .settings(noPublish)
   .aggregate(
+    `tuplez-shared`.js,
+    `tuplez-shared`.jvm,
     `tuplez-full`.js,
     `tuplez-full-light`.js,
     `tuplez-basic`.js,

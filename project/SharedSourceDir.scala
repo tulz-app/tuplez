@@ -9,7 +9,9 @@ object SharedSourceDir extends AutoPlugin {
 
   object autoImport {
 
-    val sharedScalaSource = settingKey[File]("slf4j").withRank(KeyRanks.Invisible)
+    val sharedScalaSource = settingKey[File]("shared source dir").withRank(KeyRanks.Invisible)
+    val sharedScala2Source = settingKey[File]("shared scala 2 source dir").withRank(KeyRanks.Invisible)
+    val sharedScala3Source = settingKey[File]("shared scala 3 source dir").withRank(KeyRanks.Invisible)
 
   }
 
@@ -21,7 +23,15 @@ object SharedSourceDir extends AutoPlugin {
       !string.contains(".js") &&
       !string.contains(".jvm") &&
       !string.contains("scala-")
-    }.get
+    }.get,
+    sharedScala2Source := {
+      val f = sharedScalaSource.value
+      new File(f.getAbsolutePath + "-2")
+    },
+    sharedScala3Source := {
+      val f = sharedScalaSource.value
+      new File(f.getAbsolutePath + "-3")
+    },
   )
 
 }
