@@ -15,3 +15,5 @@ addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.11.2")
 addSbtPlugin("org.typelevel" % "sbt-tpolecat" % "0.5.3")
 
 addSbtPlugin("ch.epfl.scala" % "sbt-version-policy" % "3.2.1")
+
+addSbtPlugin("com.raquo" % "sbt-buildkit-dynver" % "0.2.0-M1")

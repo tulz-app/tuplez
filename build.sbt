@@ -16,6 +16,8 @@ inThisBuild(
       ScalaVersions.v213,
       ScalaVersions.v212
     ),
+    version := buildKitDynVer.version.value,
+    dynver  := buildKitDynVer.dynver.value,
     ThisBuild / versionScheme := Some("early-semver"),
     versionPolicyIntention    := Compatibility.BinaryCompatible,
     mimaBinaryIssueFilters ++= Seq(
@@ -57,13 +59,7 @@ lazy val `tuplez-full` =
     .settings(
       name := "tuplez-full",
       Compile / sourceGenerators += Def.task {
-        CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((2, _)) =>
-            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 22, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
-          case Some((3, _)) =>
-            Seq.empty
-          case _ => Seq.empty
-        }
+        new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
@@ -84,13 +80,7 @@ lazy val `tuplez-full-light` =
     .settings(
       name := "tuplez-full-light",
       Compile / sourceGenerators += Def.task {
-        CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((2, _)) =>
-            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 10, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
-          case Some((3, _)) =>
-            Seq.empty
-          case _ => Seq.empty
-        }
+        new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
@@ -111,13 +101,7 @@ lazy val `tuplez-basic` =
     .settings(
       name := "tuplez-basic",
       Compile / sourceGenerators += Def.task {
-        CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((2, _)) =>
-            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 22, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
-          case Some((3, _)) =>
-            Seq.empty
-          case _ => Seq.empty
-        }
+        new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
@@ -138,13 +122,7 @@ lazy val `tuplez-basic-light` =
     .settings(
       name := "tuplez-basic-light",
       Compile / sourceGenerators += Def.task {
-        CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((2, _)) =>
-            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 10, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
-          case Some((3, _)) =>
-            Seq.empty
-          case _ => Seq.empty
-        }
+        new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
@@ -230,3 +208,26 @@ lazy val root = project
     `tuplez-basic-light`.jvm,
     `tuplez-apply`.jvm,
   )
+
+/**
+  * Compile-only reproduction of a Scala pattern-match reachability bug.
+  *
+  * If Tuplez triggers the bug, this project will fail to compile due to fatal warnings.
+  */
+lazy val tuplezScala3Bug =
+  project
+    .in(file("modules/scala3-bug"))
+    .dependsOn(`tuplez-full`.jvm)
+    .settings(noPublish)
+    .settings(
+      resolvers += Resolver.scalaNightlyRepository,
+      scalaVersion       := buggyScalaVersion,
+      crossScalaVersions := Seq(buggyScalaVersion),
+      scalacOptions += "-Werror", // requirement for the compilation to fail.
+      description := "Compile-only reproduction of a Scala unreachable-case false positive."
+    )
+
+lazy val buggyScalaVersion =
+  "3.9.0"
+  //"3.8.4"
+  //"3.10.1-RC1-bin-20260904-3dd457e-NIGHTLY
